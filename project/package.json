@@ -1,11 +1,11 @@
 {
-  "private": true,
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "node ./src/index.js",
+    "build": "webpack --mode=production",
     "test": ""
   },
   "keywords": [],

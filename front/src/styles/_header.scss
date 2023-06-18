@@ -1,0 +1,21 @@
+.header { 
+    color: white;
+    background-color: blue;
+}
+
+.header-row {   
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+        display: inline-block;
+    }
+}
+
+.header-buttons-list {
+   @include list-reset;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap : 20px;
+}
