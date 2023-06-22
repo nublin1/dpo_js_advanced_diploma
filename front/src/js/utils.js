@@ -14,7 +14,17 @@ export function formateDate(dateIn) {
     "December",
   ];
 
-  const fomatedDate = dateIn.getDate() + " " + monthNames[dateIn.getMonth()] + " " + dateIn.getFullYear();
+  let fomatedDate;
+  if (dateIn === null) {
+    fomatedDate = "Нет транзакций";
+  } else {
+    fomatedDate =
+      dateIn.getDate() +
+      " " +
+      monthNames[dateIn.getMonth()] +
+      " " +
+      dateIn.getFullYear();
+  }
 
   return fomatedDate;
 }

@@ -1,6 +1,14 @@
 import { el, mount } from "redom";
-import { login, getUserAccounts } from "./api";
-import { formateDate } from "./utils";
+import {
+  login,
+  getCurrencies,
+  getUserAccounts,
+  getCurrencyExchangeRate,
+  openCurrencyExchangeRate,
+  allCurrenciesList,
+  currencyBuy,
+} from "./api";
+import { renderAccountsPage } from "./pages/accountsPage.js";
 
 export function renderSignInPage() {
   const container = el("div", {
@@ -54,75 +62,9 @@ export function renderSignInPage() {
   main.appendChild(container);
 }
 
-export function renderAccountsPage(accountsInfo) {
-  const container = el("div", { class: "container accounts-container" });
 
-  // Верхняя часть
-  const controlAccountsWrapper = el("div", {
-    class: "control-accounts d-flex  mb-3",
-  });
-  const h1 = el("h1", { class: "" }, "Ваши счета");
-  const sortingType = el("select", { class: "p-2 me-auto" });
-  const sortingTypeOptions = [
-    { value: "number", label: "По номеру" },
-    { value: "balance", label: "По балансу" },
-    { value: "date", label: "По последней транзакции" },
-  ];
-  for (let i = 0; i < sortingTypeOptions.length; i++) {
-    const option = el(
-      "option",
-      { value: sortingTypeOptions[i].value },
-      sortingTypeOptions[i].label
-    );
-    sortingType.append(option);
-  }
 
-  const button = el(
-    "button",
-    { class: "btn btn-primary " },
-    "+ Создать новый счет"
-  );
-  controlAccountsWrapper.append(h1, sortingType, button);
-  container.append(controlAccountsWrapper);
-
-  // Нижняя часть
-  const accountsWrapper = el("div", { class: "row accounts" });
-  for (let i = 0; i < accountsInfo.length; i++) {
-    const card = el("div", { class: "card col-4" });
-
-    const cardBody = el("div", { class: "card-body" });
-    const cardTitle = el(
-      "h5",
-      { class: "card-title" },
-      accountsInfo[i].account
-    );
-    const price = el("p", {}, accountsInfo[i].balance + " ₽");
-    const lastTransactionHeader = el("h6", {}, "Последняя транзакция:");
-
-    const date = new Date(accountsInfo[i].transactions[0].date);
-    const lastTransaction = el("p", {}, formateDate(date));
-    const buttonOpen = el("button", { class: "btn btn-primary" }, "Открыть");
-
-    cardBody.append(
-      cardTitle,
-      price,
-      lastTransactionHeader,
-      lastTransaction,
-      buttonOpen
-    );
-    card.append(cardBody);
-    accountsWrapper.append(card);
-    container.append(accountsWrapper);
-  }
-
-  //
-  document.getElementById("header-buttons").style.display = "block";
-  const main = document.getElementById("main");
-  main.innerHTML = "";
-  main.appendChild(container);
-}
-
-export function renderCurrencyPage(currencies) {
+export function renderCurrencyPage() {
   const container = el("div", { class: "container currency-container" });
 
   //
@@ -135,20 +77,11 @@ export function renderCurrencyPage(currencies) {
   mainRow.append(leftSide, rightSide);
 
   //
-  const yourCurrencyCard = el("div", { class: "card" });
+  const yourCurrencyCard = el("div", { class: "card yourcurrency-card" });
   const yourCurrencyCardBody = el("div", { class: "card-body" });
-  const yourCurrencyTitle = el("h5", { class: "card-title" }, "Ваша валюты");
-  const yourCurrencyList = el("ul", { class: "currency-list" });
-  const currencyKeys = Object.keys(currencies);
-  for (let i = 0; i < currencyKeys.length; i++) {
-    const val = Object.values(currencies)[i];
-
-    const listItem = el("li", { class: "currency-item" });
-    const itemName = el("span", val.code);
-    const itemAmount = el("span", val.amount);
-    listItem.append(itemName, itemAmount);
-    yourCurrencyList.append(listItem);
-  }
+  const yourCurrencyTitle = el("h5", { class: "card-title" }, "Ваши валюты");
+  const yourCurrencyList = el("ul", { class: "yourcurrency-list" });
+  reloadYourCurrencyList(yourCurrencyList);
 
   yourCurrencyCardBody.append(yourCurrencyTitle, yourCurrencyList);
   yourCurrencyCard.append(yourCurrencyCardBody);
@@ -162,18 +95,29 @@ export function renderCurrencyPage(currencies) {
     { class: "card-title" },
     "Обмен валют"
   );
-  const exchangeData = el("div", { class: "d-flex exchange-data justify-content-between" });
-  const exchangeForm = el("form");
+  const exchangeData = el("div", {
+    class: "d-flex exchange-data justify-content-between",
+  });
+  const exchangeForm = el("form", { class: "exchange-form" });
   const exchangeFieldset = el("fieldset");
-  const exchangeFromWrapper = el("div");
-  const exchangeFromLabel = el("label", { class: "" }, "Откуда");
-  const exchangeFromInput = el("input", { class: "" });
-  exchangeFromWrapper.append(exchangeFromLabel, exchangeFromInput);
-  const exchangeToWrapper = el("div");
-  const exchangeToLabel = el("label", { class: "" }, "Куда");
-  const exchangeToInput = el("input", { class: "" });
-  exchangeToWrapper.append(exchangeToLabel, exchangeToInput);
-  const summaryWrapper = el("div");
+  const exchangeFromWrapper = el("div", { class: "exchange-from" });
+  const exchangeFromLabel = el("label", { class: "" }, "Из");
+  const exchangeFromSelect = el("select", { class: "" });
+  for (let i = 0; i < allCurrenciesList.length; i++) {
+    const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i] );
+    exchangeFromSelect.append(option);
+  }
+
+  exchangeFromWrapper.append(exchangeFromLabel, exchangeFromSelect);
+  const exchangeToWrapper = el("div", { class: "exchange-to" });
+  const exchangeToLabel = el("label", { class: "" }, "в");
+  const exchangeToSelect = el("select", { class: "" });
+  for (let i = 0; i < allCurrenciesList.length; i++) {
+    const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i] );
+    exchangeToSelect.append(option);
+  }
+  exchangeToWrapper.append(exchangeToLabel, exchangeToSelect);
+  const summaryWrapper = el("div", { class: "summary" });
   const summaryLabel = el("label", { class: "" }, "Сумма");
   const summaryInput = el("input", { class: "" });
   summaryWrapper.append(summaryLabel, summaryInput);
@@ -184,22 +128,38 @@ export function renderCurrencyPage(currencies) {
   );
   exchangeForm.append(exchangeFieldset);
 
-  const exchangeButton = el("button", { class: "btn btn-primary exchange-Button align-self-center" }, "Обменять");
+  const exchangeButton = el(
+    "button",
+    { class: "btn btn-primary exchange-Button align-self-center" },
+    "Обменять"
+  );
+  exchangeButton.addEventListener("click", async(e) => {
+    e.preventDefault();
+   const anwer = await currencyBuy(exchangeFromSelect.value, exchangeToSelect.value, summaryInput.value);
+   reloadYourCurrencyList(document.querySelector(".yourcurrency-list"));
+  });  
   exchangeData.append(exchangeForm, exchangeButton);
   currencyExchangeCardBody.append(currencyExchangeTitle, exchangeData);
   currencyExchangeCard.append(currencyExchangeCardBody);
   leftSide.append(currencyExchangeCard);
 
   //
-  const currencyRTChangedCard = el("div", { class: "card" });
+  const currencyRTChangedCard = el("div", {
+    class: "card  h-100",
+    id: "currencyRTChangedCard",
+  });
   const currencyRTChangedCardBody = el("div", { class: "card-body" });
   const currencyRTChangedTitle = el(
     "h5",
     { class: "card-title" },
     "Измененные курсов в реальном времени"
   );
+  const currencyRTChangedList = el("ul", { class: "currency-exchange-list" });
 
-  currencyRTChangedCardBody.append(currencyRTChangedTitle);
+  currencyRTChangedCardBody.append(
+    currencyRTChangedTitle,
+    currencyRTChangedList
+  );
   currencyRTChangedCard.append(currencyRTChangedCardBody);
   rightSide.append(currencyRTChangedCard);
 
@@ -209,6 +169,58 @@ export function renderCurrencyPage(currencies) {
   const main = document.getElementById("main");
   main.innerHTML = "";
   main.appendChild(container);
+  renderCurrencyExchange_RT();
+}
+
+function renderCurrencyExchange_RT() {
+  let currencyRTChangedCard = document.getElementById("currencyRTChangedCard");
+  if (!currencyRTChangedCard) {
+    return;
+  }
+
+  let soc = openCurrencyExchangeRate();
+  setInterval(async () => {
+    const ans = await getCurrencyExchangeRate(soc);
+
+    const currencyRTChangedItem = el("li", {
+      class: "currency-item green-pseudo",
+    });
+    const itemName = el("span", ans.from + " / " + ans.to);
+    const itemRateWrapper = el("div", { class: "rate-wrapper" });
+    const itemRate = el("span", ans.rate);
+    const itemArrow = el("span", ans.change === 1 ? "▲" : "▼");
+    itemRateWrapper.append(itemRate, itemArrow);
+    currencyRTChangedItem.append(itemName, itemRateWrapper);
+    ans.change === 1
+      ? currencyRTChangedItem.classList.add("green-pseudo")
+      : currencyRTChangedItem.classList.add("red-pseudo");
+
+    const attachList = currencyRTChangedCard.getElementsByClassName(
+      "currency-exchange-list"
+    )[0];
+
+    attachList.prepend(currencyRTChangedItem);
+    if (attachList.children.length > 21) {
+      attachList.removeChild(attachList.lastChild);
+    }
+  }, 1000);
+}
+
+async function reloadYourCurrencyList(element) {  
+  element.innerHTML = "";
+
+  const currencies = await getCurrencies();  
+
+  const currencyKeys = Object.keys(currencies.payload);
+  for (let i = 0; i < currencyKeys.length; i++) {
+    const val = Object.values(currencies.payload)[i];
+
+    const listItem = el("li", { class: "currency-item" });
+    const itemName = el("span", val.code);
+    const itemAmount = el("span", val.amount);
+    listItem.append(itemName, itemAmount);
+    element.append(listItem);
+  }
 }
 
 export function renderATMsPage(banks) {

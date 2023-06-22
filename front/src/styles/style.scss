@@ -63,7 +63,7 @@
     }
 }
 
-.currency-list {
+.yourcurrency-list {
     @include list-reset;
     overflow-x: hidden;
 
@@ -71,6 +71,7 @@
         float: left;
         width: 0;
         white-space: nowrap;
+        color: green;
         content:
             ". . . . . . . . . . . . . . . . . . . . "
             ". . . . . . . . . . . . . . . . . . . . "
@@ -91,12 +92,85 @@
 
 }
 
+.currency-exchange-list {
+    @include list-reset;
+    overflow-x: hidden;
+
+    .currency-item.green-pseudo {
+        color: green;
+    }
+
+    .currency-item.red-pseudo {
+        color: red;
+    }
+
+    .currency-item::before {
+        float: left;
+        width: 0;
+        white-space: nowrap;        
+        content:
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+    }   
+
+    .currency-item {
+        .rate-wrapper {
+            float: right;
+            padding-left: 0.33em;          
+            background: white;
+
+            .span:nth-child(1) {
+                color: black;
+            }
+        }
+    }    
+
+    .currency-item span:first-child {
+        padding-right: 0.33em;
+        color: black;
+        background: white;
+    }   
+}
 
 .exchange-card {
     .exchange-data {
         .exchange-Button {
-            width: 100%;
-            height: 100%;
+           
+            height: 60%;
         }
     }
+}
+
+.exchange-form {
+    width: 75%;
+
+    fieldset {
+        width: 100%;
+
+        .exchange-from,
+        .exchange-to {
+            display: inline-block;
+            margin-bottom: 20px;
+            
+            label {
+                margin-right: 15px;
+            }
+        }
+
+        .exchange-from {
+            margin-right: 15px;
+        }
+
+        .summary {
+            label {
+                margin-right: 15px;
+            }
+        }
+    }
+}
+
+.yourcurrency-card {
+    margin-bottom:  20px;
 }
