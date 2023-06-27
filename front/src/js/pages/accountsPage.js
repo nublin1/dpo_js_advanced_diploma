@@ -1,5 +1,5 @@
 import { el } from "redom";
-import { formateDate } from "../utils.js";
+import { formatMonthDate } from "../utils.js";
 import { createNewAccount } from "../api.js";
 import renderAdvancedAccountInfoPage from "./advancedAccountInfo.js";
 
@@ -51,8 +51,8 @@ export function renderAccountsPage(accountsInfo) {
 }
 
 function createAccountCard(account) {
-  console.log(account);
-  const card = el("div", { class: "card col-4" });
+
+  const card = el("div", { class: "card account-card col-4" });
 
   const cardBody = el("div", { class: "card-body" });
   const cardTitle = el("h5", { class: "card-title" }, account.account);
@@ -60,7 +60,7 @@ function createAccountCard(account) {
   const lastTransactionHeader = el("h6", {}, "Последняя транзакция:");
 
   let date = account.transactions.length>0 ? new Date(account.transactions[0].date) : null;
-  const lastTransaction = el("p", {}, formateDate(date));
+  const lastTransaction = el("p", {}, formatMonthDate(date));
   const buttonOpen = el(
     "button",
     { class: "btn btn-primary open-account" },

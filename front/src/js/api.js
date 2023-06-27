@@ -88,6 +88,29 @@ export async function getAccountInfo(accountNumber) {
   return response;
 }
 
+export async function transferFunds(transfer) {
+  const response = await fetch("http://localhost:3000/transfer-funds", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + localStorage.getItem("token"),
+    },
+    body: JSON.stringify({
+      from: transfer.from,
+      to: transfer.to,
+      amount: transfer.amount,
+    })
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return response;
+}
+
 export async function getCurrencies() {
   const response = await fetch("http://localhost:3000/currencies", {
     method: "GET",

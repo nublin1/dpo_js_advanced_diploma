@@ -1,0 +1,47 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.advancedAccountInfo-container {
+    padding-top: $padding-container;
+    padding-bottom: $padding-container;
+}
+
+.transaction-card {
+    .card-body {
+        h5 {
+            margin-bottom: 20px;
+        }
+
+        .transaction-form {
+            
+            fieldset {
+                margin-bottom: 25px;
+                display: grid;
+                grid-template-columns: 40% auto;
+                column-gap: 15px;
+
+                label {
+                    min-width: 50%;
+                    justify-self: flex-end;
+                }
+
+                input {
+                    width: 100%;
+                    justify-self: flex-start;
+                }
+            }
+
+            .send-transaction-button-wrapper {
+                padding-left: 40%;
+            }
+        }
+    }
+}
+
+.balance-dynamic-card {
+    cursor: pointer;
+}
+
+.history-card {
+    cursor: pointer;
+}

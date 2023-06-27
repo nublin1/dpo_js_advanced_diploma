@@ -1,18 +1,25 @@
-export function formateDate(dateIn) {
+export function getMonthName(monthNumer) {
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря",
   ];
+
+  const adjustedIndex = (monthNumer + 12) % 12;
+
+  return monthNames[adjustedIndex];
+}
+
+export function formatMonthDate(dateIn) {  
 
   let fomatedDate;
   if (dateIn === null) {
@@ -21,10 +28,25 @@ export function formateDate(dateIn) {
     fomatedDate =
       dateIn.getDate() +
       " " +
-      monthNames[dateIn.getMonth()] +
+      getMonthName(dateIn.getMonth()) +
       " " +
       dateIn.getFullYear();
   }
 
   return fomatedDate;
+}
+
+export function formatDate(dateIn) {
+  let date = new Date(dateIn);
+  let formattedDate;
+  const month = date.getMonth() + 1; // Добавляем 1, чтобы получить корректный номер месяца
+
+  formattedDate =
+    date.getDate() +
+    "." +
+    month +
+    "." +
+    date.getFullYear();
+
+  return formattedDate;
 }
