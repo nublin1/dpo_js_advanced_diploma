@@ -1,0 +1,166 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.yourcurrency-card,
+.exchange-card,
+.currency-rt-card {
+    border-radius: 25px;
+    .card-body {
+        padding: 25px;
+    }
+}
+
+.currency-rt-card {
+    border-color: $color-gray1;
+    background-color: $color-gray1;
+}
+
+.yourcurrency-card {    
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px 5px $color-shadow;
+}
+
+.yourcurrency-list {
+    @include list-reset;
+    overflow-x: hidden;
+
+    .currency-item::before {
+        float: left;
+        width: 0;
+        white-space: nowrap;
+        color: green;
+        content:
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+    }
+
+    .currency-item span:first-child {
+        padding-right: 0.33em;
+        background: white;
+    }
+
+    .currency-item span:last-child {
+        float: right;
+        padding-left: 0.33em;
+        background: white;
+    }
+}
+
+.currency-exchange-list {
+    @include list-reset;
+    overflow-x: hidden;
+
+    .currency-item.green-pseudo {
+        color: green;
+    }
+
+    .currency-item.red-pseudo {
+        color: red;
+    }
+
+    .currency-item::before {
+        float: left;
+        width: 0;
+        white-space: nowrap;
+        content:
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+    }
+
+    .currency-item {
+        .rate-wrapper {
+            float: right;
+            padding-left: 0.33em;
+            background: $color-gray1;
+
+            .span:nth-child(1) {
+                color: black;
+            }
+        }
+    }
+
+    .currency-item span:first-child {
+        padding-right: 0.33em;
+        color: black;
+        background: $color-gray1;
+    }
+}
+
+.exchange-card {
+    box-shadow: 0px 0px 5px 5px $color-shadow;
+
+    .exchange-data {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        column-gap: 10px;
+
+        .exchange-form{
+            grid-row: 1 / span 2;
+            grid-column: 1 / span 3;           
+
+            .fieldset-exchange {
+                display: flex;
+                width: 100%;
+        
+                .exchange-from,
+                .exchange-to {
+                    width: 50%;   
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+        
+                    label {
+                        min-width: 15%;
+                        margin-right: 15px;
+                    }
+
+                    select {
+                        border-radius: 10px;
+                        width: 100%;
+                    }
+                }
+        
+                .exchange-from {
+                    min-width: 15%;
+                    margin-right: 5px;
+                }
+
+                .exchange-to {
+                    text-align: center;
+                }
+        
+                .summary {
+                    label {
+                        margin-right: 15px;
+                    }
+                }
+            }
+
+            .fieldset-summary {
+                display: flex;
+
+                label {
+                    min-width: 15%;
+                    margin-right: 5px;
+                }
+
+                input {
+                    border-radius: 10px;
+                    width: 100%;
+                }
+            }
+        }
+
+        .exchange-Button {
+            grid-row: 1 / span 2;
+            grid-column: 4 / span 1;
+            height: 100%;
+        }
+    }
+}

@@ -56,7 +56,8 @@ function createAccountCard(account) {
 
   const cardBody = el("div", { class: "card-body" });
   const cardTitle = el("h5", { class: "card-title" }, account.account);
-  const price = el("p", {}, account.balance + " ₽");
+  const formatedBalance =  account.balance.toLocaleString("ru-RU");
+  const price = el("p", {}, formatedBalance + " ₽");
   const lastTransactionHeader = el("h6", {}, "Последняя транзакция:");
 
   let date = account.transactions.length>0 ? new Date(account.transactions[0].date) : null;

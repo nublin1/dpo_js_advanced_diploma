@@ -1,0 +1,11 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.ratio-card {
+    .card-body {
+        canvas {
+            width: 100%;
+            min-height: 250px;
+        }
+    }
+}

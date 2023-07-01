@@ -1,11 +1,11 @@
-import { el, mount } from "redom";
+
 import { getBanks, getUserAccounts, getAllCurrencies, logout } from "./js/api";
 import {
-  renderSignInPage,
-  renderCurrencyPage,
+  renderSignInPage,  
   renderATMsPage,
 } from "./js/pages";
 import { renderAccountsPage } from "./js/pages/accountsPage";
+import { renderCurrencyPage } from "./js/pages/currencyPage";
 import "./styles/style.scss";
 
 document.getElementById("ATMs").addEventListener("click", async (e) => {
