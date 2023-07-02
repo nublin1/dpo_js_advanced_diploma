@@ -1,9 +1,5 @@
-
 import { getBanks, getUserAccounts, getAllCurrencies, logout } from "./js/api";
-import {
-  renderSignInPage,  
-  renderATMsPage,
-} from "./js/pages";
+import { renderSignInPage, renderATMsPage } from "./js/pages";
 import { renderAccountsPage } from "./js/pages/accountsPage";
 import { renderCurrencyPage } from "./js/pages/currencyPage";
 import "./styles/style.scss";
@@ -19,10 +15,8 @@ document.getElementById("ATMs").addEventListener("click", async (e) => {
 
 document.getElementById("Accounts").addEventListener("click", async (e) => {
   e.preventDefault();
-  let accs = await getUserAccounts();
-  if (accs) {
-    renderAccountsPage(accs.payload);
-  }
+
+  renderAccountsPage();
 });
 
 document.getElementById("Currency").addEventListener("click", async (e) => {

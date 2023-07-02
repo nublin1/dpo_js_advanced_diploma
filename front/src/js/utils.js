@@ -50,3 +50,4 @@ export function formatDate(dateIn) {
 
   return formattedDate;
 }
+
