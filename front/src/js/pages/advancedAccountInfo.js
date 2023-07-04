@@ -112,8 +112,7 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
   //
   const main = document.getElementById("main");
   main.innerHTML = "";
-  main.appendChild(container);
-  showFullAccountInfoPage(accountNumber);
+  main.appendChild(container);  
 }
 
 async function loadData(accountNumber) {
@@ -140,72 +139,104 @@ async function loadData(accountNumber) {
   }
 
   const transactions = accountsInfo.payload.transactions;
-  let counter = 5;
-  let lastTransactionMonth = new Date(transactions[transactions.length - 1].date).getMonth();
-  for (let i = transactions.length - 1; i >= 0; i--) {
-    const transactionDate = new Date(transactions[i].date);
-    const transactionMonth = transactionDate.getMonth();
+  if (transactions.length === 0) {
+    const element = document.getElementById("balace-dynamic-graph");
+    element.innerHTML = "";
+    
+    const infoText = el("p", {}, "Операции со счётом не проводились");
+    element.parentNode.append(infoText);
+    element.remove();
+    hideFullAccountInfoPage();
 
-    if (accountNumber === transactions[i].to) {
-      balance_tmp -= transactions[i].amount;
-    } else {
-      balance_tmp += transactions[i].amount;
+  } else {
+    let counter = 5;
+    let lastTransactionMonth = new Date(
+      transactions[transactions.length - 1].date
+    ).getMonth();
+    for (let i = transactions.length - 1; i >= 0; i--) {
+      const transactionDate = new Date(transactions[i].date);
+      const transactionMonth = transactionDate.getMonth();
+
+      if (accountNumber === transactions[i].to) {
+        balance_tmp -= transactions[i].amount;
+      } else {
+        balance_tmp += transactions[i].amount;
+      }
+
+      if (transactionMonth !== lastTransactionMonth) {
+        lastTransactionMonth = transactionMonth;
+        counter--;
+      }
+
+      if (
+        transactionMonth >= 0 &&
+        transactionMonth < 12 &&
+        !findedFirstInMonth[counter]
+      ) {
+        totalPerMonth[counter] = balance_tmp;
+        findedFirstInMonth[counter] = true;
+      }
     }
 
-    if (transactionMonth !== lastTransactionMonth) {
-      lastTransactionMonth = transactionMonth;     
-      counter--;
-    }
-
-    if (
-      transactionMonth >= 0 &&
-      transactionMonth < 12 &&
-      !findedFirstInMonth[counter]
-    ) {
-      totalPerMonth[counter] = balance_tmp;
-      findedFirstInMonth[counter] = true;
-    }    
+    totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
+    configureGraphics(totalPerMonth);
   }
-
-  totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
-  configureGraphics(totalPerMonth);
 
   // Transactions
   const tbody = document.querySelector(".history-table__body");
   tbody.innerHTML = "";
 
-  for (let i = accountsInfo.payload.transactions.length - 1; i > 0; i--) {
-    const tr = el("tr");
-    const tdFrom = el("td", {}, accountsInfo.payload.transactions[i].from);
-    const tdTo = el("td", {}, accountsInfo.payload.transactions[i].to);
-    const tdAmount = el("td", {});
-    //
-    if (accountNumber === accountsInfo.payload.transactions[i].to) {
-      tdAmount.classList.add("transaction-amount--green");
-      tdAmount.textContent =
-        "+ " +
-        accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
-        " ₽";
-    } else {
-      tdAmount.classList.add("transaction-amount--red");
-      tdAmount.textContent =
-        "- " +
-        accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
-        " ₽";
-    }
+  if (accountsInfo.payload.transactions.length === 0) {
+    const historyTableFoot = el("tfoot", { class: "history-table__foot" });
+    const historyTableFootRow = el("tr", { class: "history-table__row" });
+    const historyTableFootCell1 = el("th", {
+      class: "history-table__cell",
+      colspan: 4,
+    }, "Операции со счётом не проводились");
+    historyTableFootRow.append(historyTableFootCell1);
+    historyTableFoot.append(historyTableFootRow);
 
-    const tdDate = el(
-      "td",
-      {},
-      formatDate(accountsInfo.payload.transactions[i].date)
-    );
-    tr.append(tdFrom, tdTo, tdAmount, tdDate);
-    tbody.append(tr);
 
-    if (i <= accountsInfo.payload.transactions.length - 10) {
-      break;
-    }
+    const table = document.querySelector(".history-table");
+    table.append(historyTableFoot);
+
   }
+  else {
+    for (let i = accountsInfo.payload.transactions.length - 1; i > 0; i--) {
+      const tr = el("tr");
+      const tdFrom = el("td", {}, accountsInfo.payload.transactions[i].from);
+      const tdTo = el("td", {}, accountsInfo.payload.transactions[i].to);
+      const tdAmount = el("td", {});
+      //
+      if (accountNumber === accountsInfo.payload.transactions[i].to) {
+        tdAmount.classList.add("transaction-amount--green");
+        tdAmount.textContent =
+          "+ " +
+          accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
+          " ₽";
+      } else {
+        tdAmount.classList.add("transaction-amount--red");
+        tdAmount.textContent =
+          "- " +
+          accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
+          " ₽";
+      }
+  
+      const tdDate = el(
+        "td",
+        {},
+        formatDate(accountsInfo.payload.transactions[i].date)
+      );
+      tr.append(tdFrom, tdTo, tdAmount, tdDate);
+      tbody.append(tr);
+  
+      if (i <= accountsInfo.payload.transactions.length - 10) {
+        break;
+      }
+    }
+    showFullAccountInfoPage(accountNumber);
+  }  
+  
 }
 
 function createTable() {
@@ -339,4 +370,17 @@ function showFullAccountInfoPage(accountNumber) {
   document.querySelector(".history-card").addEventListener("click", () => {
     renderFullAccountInfoPage(accountNumber);
   });
+}
+
+function hideFullAccountInfoPage() {
+  document.querySelector(".balance-dynamic-card").style.cursor = "auto";
+  document.querySelector(".balance-dynamic-card").removeEventListener("click", () => {
+    
+  });
+
+  document.querySelector(".history-card").style.cursor = "auto";
+  document.querySelector(".history-card").removeEventListener("click", () => {
+    
+  });
+
 }
