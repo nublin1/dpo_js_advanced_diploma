@@ -43,7 +43,7 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
 
   container.append(headerWrapper, accountBaseInfo);
 
-  // transfer part
+  //#reg transfer part
   const transferWrapper = el("div", { class: "row transfer-wrapper" });
 
   const newTransactionCard = el("div", { class: "col card transaction-card" });
@@ -81,17 +81,19 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
   );
 
   // graphics
-  const balaceDynamicCard = el("div", {
+  const balanceDynamicCard = el("div", {
     class: "card balance-dynamic-card col",
   });
-  const balaceDynamicCardBody = el("div", { class: "card-body" });
-  const balaceDynamicCardTitle = el("h5", {}, "Динамика баланса");
-  const graphics = el("canvas", { id: "balace-dynamic-graph" });
+  const balanceDynamicCardBody = el("div", { class: "card-body-balance" });
+  const balanceDynamicCardTitle = el("h5", {}, "Динамика баланса"); 
+  const spinnerWrapper = el("div", { class: "d-flex justify-content-center" , id:"spinner-balance"});
+  const spinner = el("div", { class: "spinner-border text-primary", role: "status" });
 
-  balaceDynamicCardBody.append(balaceDynamicCardTitle, graphics);
-  balaceDynamicCard.append(balaceDynamicCardBody);
+  spinnerWrapper.append(spinner);
+  balanceDynamicCardBody.append(balanceDynamicCardTitle, spinnerWrapper);
+  balanceDynamicCard.append(balanceDynamicCardBody);
 
-  transferWrapper.append(newTransactionCard, balaceDynamicCard);
+  transferWrapper.append(newTransactionCard, balanceDynamicCard);
   container.append(transferWrapper);
 
   // history part
@@ -273,14 +275,23 @@ function createTable() {
   historyTableHead.append(historyTableHeadRow);
 
   const historyTableBody = el("tbody", { class: "history-table__body" });
+  const historyTableBodyRow = el("tr", { class: "history-table__row" });
+  const historyTableBodyCellSpinner = el("th", {
+    class: "history-table__cell spinner-border text-primary",
+    colspan: 4,
+  });
+  
 
+  
+  historyTableBodyRow.append(historyTableBodyCellSpinner);
+  historyTableBody.append(historyTableBodyRow);
   historyTable.append(historyTableHead, historyTableBody);
   return historyTable;
 }
 
 let graph = null;
 async function configureGraphics(data) {
-  const element = document.getElementById("balace-dynamic-graph");
+  const element = el("canvas", { id: "balace-dynamic-graph" }); 
   const currentDate = new Date();
   let labels = [];
   for (let i = data.length; i > 0; i--) {
@@ -332,6 +343,9 @@ async function configureGraphics(data) {
       },
     },
   });
+
+  document.getElementById("spinner-balance").remove();
+  document.querySelector(".card-body-balance").append(element);
 }
 
 function configureReturnBtn(btn) {

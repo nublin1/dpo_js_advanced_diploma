@@ -49,11 +49,13 @@ export function renderFullAccountInfoPage(accountNumber) {
   const balaceDynamicCard = el("div", {
     class: "col card balace-dynamic-card",
   });
-  const balaceDynamicCardBody = el("div", { class: "card-body" });
+  const balaceDynamicCardBody = el("div", { class: "card-body-balance" });
   const balaceDynamicCardTitle = el("h5", {}, "Динамика баланса");
-  const graphics = el("canvas", { id: "balace-dynamic-graph" });
+  const spinnerWrapper = el("div", { class: "d-flex justify-content-center" , id:"spinner-balance"});
+  const spinner = el("div", { class: "spinner-border text-primary", role: "status" });
 
-  balaceDynamicCardBody.append(balaceDynamicCardTitle, graphics);
+  spinnerWrapper.append(spinner);  
+  balaceDynamicCardBody.append(balaceDynamicCardTitle, spinnerWrapper);
   balaceDynamicCard.append(balaceDynamicCardBody);
   container.append(balaceDynamicCard);
 
@@ -65,15 +67,15 @@ export function renderFullAccountInfoPage(accountNumber) {
     {},
     "Соотношение входящих и исходящих транзакций"
   );
-  const ratio = el("canvas", { id: "ratio-graph" });  
-  ratio.height = 250;
+  const spinnerRatioWrapper = el("div", { class: "d-flex justify-content-center" , id:"spinner-ratio"});
+  const spinnerRatio = el("div", { class: "spinner-border text-primary", role: "status" });
 
-  ratioCardBody.append(ratioCardTitle, ratio);
+  spinnerRatioWrapper.append(spinnerRatio);
+  ratioCardBody.append(ratioCardTitle, spinnerRatioWrapper);
   ratioCard.append(ratioCardBody);
   container.append(ratioCard);
 
-  // history part
-  const historyWrapper = el("div", { class: "row history-wrapper" });
+  // history part  
   const historyCard = el("div", { class: "card col" });
   const historyCardBody = el("div", { class: "card-body" });
   const historyCardTitle = el("h5", {}, "История переводов");
@@ -133,6 +135,14 @@ function createHistoryTable() {
 
   //body
   const historyTableBody = el("tbody", { class: "history-table__body" });
+  const historyTableBodyRow = el("tr", { class: "history-table__row" });
+  const historyTableBodyCellSpinner = el("th", {
+    class: "history-table__cell spinner-border text-primary",
+    colspan: 4,
+  });
+
+  historyTableBodyRow.append(historyTableBodyCellSpinner);
+  historyTableBody.append(historyTableBodyRow);
 
   //foot
   const historyTableFoot = el("tfoot", { class: "history-table__foot" });
@@ -142,11 +152,12 @@ function createHistoryTable() {
     colspan: 4,
   });
   const pagination = el("div", { id: "pagination" });
+
   historyTableFootCell1.append(pagination);
   historyTableFootRow.append(historyTableFootCell1);
   historyTableFoot.append(historyTableFootRow);
-
   historyTable.append(historyTableHead, historyTableBody, historyTableFoot);
+
   return historyTable;
 }
 
@@ -332,7 +343,7 @@ function createPageButton(page, label) {
 
 let graphDynamic = null;
 async function configureDynamicGraphic(data) {
-  const element = document.getElementById("balace-dynamic-graph");
+  const element = el("canvas", { id: "balace-dynamic-graph" });
   const currentDate = new Date();
   let labels = [];
   for (let i = data.length; i > 0; i--) {
@@ -385,11 +396,16 @@ async function configureDynamicGraphic(data) {
       },
     },
   });
+
+  document.getElementById("spinner-balance").remove();
+  document.querySelector(".card-body-balance").append(element);
 }
 
 let graphRatio = null;
 async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
-  const element = document.getElementById("ratio-graph");
+  const element = el("canvas", { id: "ratio-graph" });  
+  element.height = 250;
+
   const currentDate = new Date();
   let labels = [];
   for (let i = totalPerMonth.length; i > 0; i--) {
@@ -414,6 +430,7 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
     //console.log(positivePercentPerMonth);
     gradients.push(
       createGradient(
+        element,
         "rgba(0, 255, 0, 0.5)",
         "rgba(255, 0, 0, 0.5)",
         positivePercentPerMonth[i] / 100,
@@ -479,6 +496,7 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
 
 // Функция для создания градиента
 function createGradient(
+  canvasElement,
   color1,
   color2,
   barColorHeightPercent,
@@ -487,7 +505,7 @@ function createGradient(
   zeroPercent
 ) {
   console.log("barColorHeightPercent " + barColorHeightPercent);
-  const ctx = document.getElementById("ratio-graph").getContext("2d");
+  const ctx = canvasElement.getContext("2d");
  
   const canvasTrueHeight = ctx.canvas.height - (ctx.canvas.height * 12 / 100);
   const canvasHeight = (canvasTrueHeight / 100) * barHeightPercent;

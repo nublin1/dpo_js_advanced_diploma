@@ -40,7 +40,10 @@ export async function renderAccountsPage() {
   container.append(controlAccountsWrapper);
 
   // Lower part
-  const accountsWrapper = el("div", { class: "row accounts" });
+  const accountsWrapper = el("div", { class: "row d-flex justify-content-center accounts" });
+  const spinner = el("div", { class: "spinner-border text-primary", role: "status" });
+
+  accountsWrapper.append(spinner);   
   container.append(accountsWrapper);
 
   //
@@ -49,7 +52,7 @@ export async function renderAccountsPage() {
   main.innerHTML = "";
   main.appendChild(container);
 
-  await loadData();
+  loadData();
 }
 
 async function loadData() {
@@ -72,7 +75,7 @@ function renderAccounts(array) {
 }
 
 function createAccountCard(account) {
-  const card = el("div", { class: "card account-card col-4" });
+  const card = el("div", { class: "col-4 card account-card " });
 
   const cardBody = el("div", { class: "card-body" });
   const cardTitle = el("h5", { class: "card-title" }, account.account);
