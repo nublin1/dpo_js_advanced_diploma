@@ -1,5 +1,6 @@
-import { getBanks, getUserAccounts, getAllCurrencies, logout } from "./js/api";
-import { renderSignInPage, renderATMsPage } from "./js/pages";
+import { getBanks,  getAllCurrencies, logout } from "./js/api";
+import { renderSignInPage  } from "./js/loginPage";
+import {renderATMsPage} from "./js/pages/ATMsPage";
 import { renderAccountsPage } from "./js/pages/accountsPage";
 import { renderCurrencyPage } from "./js/pages/currencyPage";
 import "./styles/style.scss";

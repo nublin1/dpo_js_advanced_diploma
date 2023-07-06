@@ -52,11 +52,11 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
   const newTransactionCardForm = el("form", { class: "transaction-form" });
   const formFirstRow = el("fieldset");
   const formFirstRowLabel = el("label", {}, "Номер счёта получателя");
-  const formFirstRowInput = el("input", { placeholder: "Введите номер счёта" });
+  const formFirstRowInput = el("input", {class:"input-from",  placeholder: "Введите номер счёта" , required: true});
   formFirstRow.append(formFirstRowLabel, formFirstRowInput);
   const formSecondRow = el("fieldset");
   const formSecondRowLabel = el("label", {}, "Сумма перевода");
-  const formSecondRowInput = el("input", { placeholder: "Введите сумму" });
+  const formSecondRowInput = el("input", { placeholder: "Введите сумму" , required: true});
   formSecondRow.append(formSecondRowLabel, formSecondRowInput);
   const sendButtonWrapper = el("div", {
     class: "send-transaction-button-wrapper",
@@ -76,7 +76,7 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
   configureTransferBtn(
     sendButtonWrapper,
     accountNumber,
-    formFirstRowLabel,
+    formFirstRowInput,
     formSecondRowInput
   );
 
@@ -108,13 +108,13 @@ export default function renderAdvancedAccountInfoPage(accountNumber) {
   historyCard.append(historyCardBody);
   historyWrapper.append(historyCard);
   container.append(historyWrapper);
-
-  loadData(accountNumber);
-
+  
   //
   const main = document.getElementById("main");
   main.innerHTML = "";
   main.appendChild(container);  
+
+  loadData(accountNumber); 
 }
 
 async function loadData(accountNumber) {
@@ -129,66 +129,74 @@ async function loadData(accountNumber) {
   balanceElement.textContent =
     Number(accountsInfo.payload.balance.toFixed(2)) + " ₽";
 
-  // Last 6 months
-  const balance = accountsInfo.payload.balance;
-  let balance_tmp = balance;
-  let totalPerMonth = [];
-  let findedFirstInMonth = [];
+  constructGraphics(accountsInfo.payload);
+  constructTransactionsHistory(accountsInfo.payload);
+}
 
-  for (let i = 0; i < 6; i++) {
-    totalPerMonth.push(balance_tmp);
-    findedFirstInMonth.push(false);
-  }
+function constructGraphics(accountsInfo) {
+   // Last 6 months
+   const balance = accountsInfo.balance;
+   let balance_tmp = balance;
+   let totalPerMonth = [];
+   let findedFirstInMonth = [];
+ 
+   for (let i = 0; i < 6; i++) {
+     totalPerMonth.push(0);
+     findedFirstInMonth.push(false);
+   }
+   totalPerMonth[totalPerMonth.length - 1] = balance_tmp;
+ 
+   const transactions = accountsInfo.transactions;
+   if (transactions.length === 0) {
+     const element = document.querySelector(".balance-dynamic-card");      
+     const infoText = el("p", {}, "Операции со счётом не проводились");
 
-  const transactions = accountsInfo.payload.transactions;
-  if (transactions.length === 0) {
-    const element = document.getElementById("balace-dynamic-graph");
-    element.innerHTML = "";
-    
-    const infoText = el("p", {}, "Операции со счётом не проводились");
-    element.parentNode.append(infoText);
-    element.remove();
-    hideFullAccountInfoPage();
+     document.getElementById("spinner-balance").remove();
+     element.append(infoText);     
+     hideFullAccountInfoPage();
+ 
+   } else {
+     let counter = 5;
+     let lastTransactionMonth = new Date(
+       transactions[transactions.length - 1].date
+     ).getMonth();
+     for (let i = transactions.length - 1; i >= 0; i--) {
+       const transactionDate = new Date(transactions[i].date);
+       const transactionMonth = transactionDate.getMonth();
+ 
+       if (transactionMonth !== lastTransactionMonth) {
+         lastTransactionMonth = transactionMonth;
+         counter--;
+       }
+ 
+       if (
+         transactionMonth >= 0 &&
+         transactionMonth < 12 &&
+         !findedFirstInMonth[counter]
+       ) {
+         totalPerMonth[counter] = balance_tmp;
+         findedFirstInMonth[counter] = true;
+       }
 
-  } else {
-    let counter = 5;
-    let lastTransactionMonth = new Date(
-      transactions[transactions.length - 1].date
-    ).getMonth();
-    for (let i = transactions.length - 1; i >= 0; i--) {
-      const transactionDate = new Date(transactions[i].date);
-      const transactionMonth = transactionDate.getMonth();
-
-      if (accountNumber === transactions[i].to) {
+       if (accountsInfo.account === transactions[i].to) {
         balance_tmp -= transactions[i].amount;
       } else {
         balance_tmp += transactions[i].amount;
       }
+     }
+ 
+     totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
+     configureGraphics(totalPerMonth);
+   }
+}
 
-      if (transactionMonth !== lastTransactionMonth) {
-        lastTransactionMonth = transactionMonth;
-        counter--;
-      }
 
-      if (
-        transactionMonth >= 0 &&
-        transactionMonth < 12 &&
-        !findedFirstInMonth[counter]
-      ) {
-        totalPerMonth[counter] = balance_tmp;
-        findedFirstInMonth[counter] = true;
-      }
-    }
-
-    totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
-    configureGraphics(totalPerMonth);
-  }
-
+function constructTransactionsHistory(accountsInfo) {
   // Transactions
   const tbody = document.querySelector(".history-table__body");
   tbody.innerHTML = "";
 
-  if (accountsInfo.payload.transactions.length === 0) {
+  if (accountsInfo.transactions.length === 0) {
     const historyTableFoot = el("tfoot", { class: "history-table__foot" });
     const historyTableFootRow = el("tr", { class: "history-table__row" });
     const historyTableFootCell1 = el("th", {
@@ -204,41 +212,40 @@ async function loadData(accountNumber) {
 
   }
   else {
-    for (let i = accountsInfo.payload.transactions.length - 1; i > 0; i--) {
+    for (let i = accountsInfo.transactions.length - 1; i >= 0; i--) {
       const tr = el("tr");
-      const tdFrom = el("td", {}, accountsInfo.payload.transactions[i].from);
-      const tdTo = el("td", {}, accountsInfo.payload.transactions[i].to);
+      const tdFrom = el("td", {}, accountsInfo.transactions[i].from);
+      const tdTo = el("td", {}, accountsInfo.transactions[i].to);
       const tdAmount = el("td", {});
       //
-      if (accountNumber === accountsInfo.payload.transactions[i].to) {
+      if (accountsInfo.account === accountsInfo.transactions[i].to) {
         tdAmount.classList.add("transaction-amount--green");
         tdAmount.textContent =
           "+ " +
-          accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
+          accountsInfo.transactions[i].amount.toLocaleString("ru-RU") +
           " ₽";
       } else {
         tdAmount.classList.add("transaction-amount--red");
         tdAmount.textContent =
           "- " +
-          accountsInfo.payload.transactions[i].amount.toLocaleString("ru-RU") +
+          accountsInfo.transactions[i].amount.toLocaleString("ru-RU") +
           " ₽";
       }
   
       const tdDate = el(
         "td",
         {},
-        formatDate(accountsInfo.payload.transactions[i].date)
+        formatDate(accountsInfo.transactions[i].date)
       );
       tr.append(tdFrom, tdTo, tdAmount, tdDate);
       tbody.append(tr);
   
-      if (i <= accountsInfo.payload.transactions.length - 10) {
+      if (i <= accountsInfo.transactions.length - 10) {
         break;
       }
     }
-    showFullAccountInfoPage(accountNumber);
-  }  
-  
+    showFullAccountInfoPage(accountsInfo.account);
+  }   
 }
 
 function createTable() {
@@ -291,7 +298,11 @@ function createTable() {
 
 let graph = null;
 async function configureGraphics(data) {
-  const element = el("canvas", { id: "balace-dynamic-graph" }); 
+  let element = document.getElementById("balace-dynamic-graph");
+  if (!element) {
+    element = el("canvas", { id: "balace-dynamic-graph" }); 
+  }
+   
   const currentDate = new Date();
   let labels = [];
   for (let i = data.length; i > 0; i--) {
@@ -344,7 +355,10 @@ async function configureGraphics(data) {
     },
   });
 
-  document.getElementById("spinner-balance").remove();
+  const spinner =  document.getElementById("spinner-balance");
+  if (spinner) {
+    spinner.remove();
+  } 
   document.querySelector(".card-body-balance").append(element);
 }
 
@@ -368,7 +382,7 @@ function configureTransferBtn(btn, from, toField, amountField) {
     };
     let response = await transferFunds(transfer);
     if (response) {
-      console.log(from);
+      // console.log(transfer);
       loadData(from);
     }
   });

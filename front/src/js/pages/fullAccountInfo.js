@@ -51,31 +51,43 @@ export function renderFullAccountInfoPage(accountNumber) {
   });
   const balaceDynamicCardBody = el("div", { class: "card-body-balance" });
   const balaceDynamicCardTitle = el("h5", {}, "Динамика баланса");
-  const spinnerWrapper = el("div", { class: "d-flex justify-content-center" , id:"spinner-balance"});
-  const spinner = el("div", { class: "spinner-border text-primary", role: "status" });
+  const spinnerWrapper = el("div", {
+    class: "d-flex justify-content-center",
+    id: "spinner-balance",
+  });
+  const spinner = el("div", {
+    class: "spinner-border text-primary",
+    role: "status",
+  });
 
-  spinnerWrapper.append(spinner);  
+  spinnerWrapper.append(spinner);
   balaceDynamicCardBody.append(balaceDynamicCardTitle, spinnerWrapper);
   balaceDynamicCard.append(balaceDynamicCardBody);
   container.append(balaceDynamicCard);
 
   // Ratio of incoming and outgoing transactions
   const ratioCard = el("div", { class: "col card ratio-card" });
-  const ratioCardBody = el("div", { class: "card-body" });
+  const ratioCardBody = el("div", { class: "card-body-ratio" });
   const ratioCardTitle = el(
     "h5",
     {},
     "Соотношение входящих и исходящих транзакций"
   );
-  const spinnerRatioWrapper = el("div", { class: "d-flex justify-content-center" , id:"spinner-ratio"});
-  const spinnerRatio = el("div", { class: "spinner-border text-primary", role: "status" });
+  const spinnerRatioWrapper = el("div", {
+    class: "d-flex justify-content-center",
+    id: "spinner-ratio",
+  });
+  const spinnerRatio = el("div", {
+    class: "spinner-border text-primary",
+    role: "status",
+  });
 
   spinnerRatioWrapper.append(spinnerRatio);
   ratioCardBody.append(ratioCardTitle, spinnerRatioWrapper);
   ratioCard.append(ratioCardBody);
   container.append(ratioCard);
 
-  // history part  
+  // history part
   const historyCard = el("div", { class: "card col" });
   const historyCardBody = el("div", { class: "card-body" });
   const historyCardTitle = el("h5", {}, "История переводов");
@@ -188,11 +200,12 @@ async function loadData(accountNumber) {
   let totalPositiveTransactions = [];
 
   for (let i = 0; i < 12; i++) {
-    totalPerMonth.push(balance_tmp);
+    totalPerMonth.push(0);
     findedFirstInMonth.push(false);
     totalTransactionsPerMonth.push(0);
     totalPositiveTransactions.push(0);
   }
+  totalPerMonth[totalPerMonth.length - 1] = balance_tmp;
 
   const transactions = accountsInfo.payload.transactions;
   let counter = 11;
@@ -203,13 +216,6 @@ async function loadData(accountNumber) {
     const transactionDate = new Date(transactions[i].date);
     const transactionMonth = transactionDate.getMonth();
     totalTransactionsPerMonth[counter] += 1;
-
-    if (accountNumber === transactions[i].to) {
-      balance_tmp -= transactions[i].amount;
-      totalPositiveTransactions[counter] += 1;
-    } else {
-      balance_tmp += transactions[i].amount;
-    }
 
     if (transactionMonth !== lastTransactionMonth) {
       lastTransactionMonth = transactionMonth;
@@ -224,19 +230,27 @@ async function loadData(accountNumber) {
       totalPerMonth[counter] = balance_tmp;
       findedFirstInMonth[counter] = true;
     }
+
+    if (accountNumber === transactions[i].to) {
+      balance_tmp -= transactions[i].amount;
+      totalPositiveTransactions[counter] += 1;
+    } else {
+      balance_tmp += transactions[i].amount;
+    }
+
     if (counter < 0) {
       break;
     }
   }
 
   totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
-  let positivePercentPerMonth = [];
+  let positivePercentPerMonth = new Array(12).fill(0);
   for (let i = 0; i < totalPerMonth.length; i++) {
-    positivePercentPerMonth.push(
-      Number(
+    if (totalTransactionsPerMonth[i] > 0) {
+      positivePercentPerMonth[i] = Number(
         (totalPositiveTransactions[i] / totalTransactionsPerMonth[i]) * 100
-      ).toFixed(2)
-    );
+      ).toFixed(2);
+    }
   }
 
   configureDynamicGraphic(totalPerMonth);
@@ -251,7 +265,7 @@ function displayTableData(currentPage) {
 
   for (
     let i = accountsInfo.payload.transactions.length - 1 - offset;
-    i > 0;
+    i >= 0;
     i--
   ) {
     const tr = el("tr");
@@ -403,7 +417,7 @@ async function configureDynamicGraphic(data) {
 
 let graphRatio = null;
 async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
-  const element = el("canvas", { id: "ratio-graph" });  
+  const element = el("canvas", { id: "ratio-graph" });
   element.height = 250;
 
   const currentDate = new Date();
@@ -420,12 +434,9 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
   const maxVal = Math.max(...totalPerMonth);
   const minVal = Math.min(...totalPerMonth);
   const totalHeight = maxVal + Math.abs(minVal);
-  const zeroPercent = 100 / (totalHeight /  Math.abs(minVal));
+  const zeroPercent = 100 / (totalHeight / Math.abs(minVal));
   let gradients = [];
   for (let i = 0; i < totalPerMonth.length; i++) {
-    let tarColorHeight = totalPerMonth[totalPerMonth.length - 1] / 2;
-    let percentColorHeight =
-      (positivePercentPerMonth * 100) / totalPerMonth[totalPerMonth.length - 1];
     let tarBarHeightPercent = Math.abs(totalPerMonth[i] * 100) / totalHeight;
     //console.log(positivePercentPerMonth);
     gradients.push(
@@ -492,6 +503,8 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
   });
 
   //
+  document.getElementById("spinner-ratio").remove();
+  document.querySelector(".card-body-ratio").append(element);
 }
 
 // Функция для создания градиента
@@ -504,18 +517,28 @@ function createGradient(
   isPositive,
   zeroPercent
 ) {
-  console.log("barColorHeightPercent " + barColorHeightPercent);
+  //console.log("barColorHeightPercent " + barColorHeightPercent);
   const ctx = canvasElement.getContext("2d");
- 
-  const canvasTrueHeight = ctx.canvas.height - (ctx.canvas.height * 12 / 100);
+
+  const canvasTrueHeight = ctx.canvas.height - (ctx.canvas.height * 12) / 100;
   const canvasHeight = (canvasTrueHeight / 100) * barHeightPercent;
   const zeroPoint = (canvasTrueHeight / 100) * zeroPercent;
   //console.log("zeroPoint " + zeroPoint);
   let gradient;
   if (isPositive === true) {
-    gradient = ctx.createLinearGradient(0, canvasTrueHeight - zeroPoint, 0,  canvasTrueHeight - zeroPoint - canvasHeight);
+    gradient = ctx.createLinearGradient(
+      0,
+      canvasTrueHeight - zeroPoint,
+      0,
+      canvasTrueHeight - zeroPoint - canvasHeight
+    );
   } else {
-    gradient = ctx.createLinearGradient(0, canvasTrueHeight - zeroPoint, 0,   canvasTrueHeight - zeroPoint + canvasHeight);
+    gradient = ctx.createLinearGradient(
+      0,
+      canvasTrueHeight - zeroPoint,
+      0,
+      canvasTrueHeight - zeroPoint + canvasHeight
+    );
   }
 
   gradient.addColorStop(0, color1);

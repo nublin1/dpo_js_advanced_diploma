@@ -58,7 +58,7 @@ export function createNewAccount() {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Basic " + localStorage.getItem("token"),
-    },   
+    },
   })
     .then((response) => response.json())
     .then((data) => {
@@ -71,24 +71,28 @@ export function createNewAccount() {
 }
 
 export async function getAccountInfo(accountNumber) {
-  const response = await fetch(`http://localhost:3000/account/${accountNumber}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + localStorage.getItem("token"),
-    },
-  })
+  const response = await fetch(
+    `http://localhost:3000/account/${accountNumber}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + localStorage.getItem("token"),
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
     .catch((error) => {
       console.log(error);
-    }); 
+    });
   return response;
 }
 
 export async function transferFunds(transfer) {
+  //console.log(transfer);
   const response = await fetch("http://localhost:3000/transfer-funds", {
     method: "POST",
     headers: {
@@ -99,7 +103,7 @@ export async function transferFunds(transfer) {
       from: transfer.from,
       to: transfer.to,
       amount: transfer.amount,
-    })
+    }),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -184,14 +188,13 @@ export function getAllCurrencies() {
   })
     .then((response) => response.json())
     .then((data) => {
-      allCurrenciesList = data.payload;  
+      allCurrenciesList = data.payload;
       return data;
     })
     .catch((error) => {
       console.log(error);
     });
 }
-
 
 export async function currencyBuy(from, to, amount) {
   const response = await fetch("http://localhost:3000/currency-buy", {
@@ -203,8 +206,8 @@ export async function currencyBuy(from, to, amount) {
     body: JSON.stringify({
       from,
       to,
-      amount,      
-    })
+      amount,
+    }),
   })
     .then((response) => response.json())
     .then((data) => {
