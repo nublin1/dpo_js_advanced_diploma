@@ -6,6 +6,7 @@ import {
   allCurrenciesList,
   currencyBuy,
 } from "./../api";
+import Choices from "choices.js";
 
 export async function renderCurrencyPage() {
   const container = el("div", { class: "container currency-container" });
@@ -45,7 +46,7 @@ export async function renderCurrencyPage() {
   const exchangeFieldset = el("fieldset", { class: "fieldset-exchange" });
   const exchangeFromWrapper = el("div", { class: "exchange-from" });
   const exchangeFromLabel = el("label", { class: "" }, "Из");
-  const exchangeFromSelect = el("select", { class: "" });
+  const exchangeFromSelect = el("select", { class: "select-from" });
   for (let i = 0; i < allCurrenciesList.length; i++) {
     const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i]);
     exchangeFromSelect.append(option);
@@ -54,7 +55,7 @@ export async function renderCurrencyPage() {
 
   const exchangeToWrapper = el("div", { class: "exchange-to" });
   const exchangeToLabel = el("label", { class: "" }, "в");
-  const exchangeToSelect = el("select", { class: "" });
+  const exchangeToSelect = el("select", { class: "select-to" });
   for (let i = 0; i < allCurrenciesList.length; i++) {
     const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i]);
     exchangeToSelect.append(option);
@@ -115,6 +116,23 @@ export async function renderCurrencyPage() {
   main.innerHTML = "";
   main.appendChild(container);
   renderCurrencyExchange_RT();
+  cinfigureCurrencyExcCard();
+}
+
+function cinfigureCurrencyExcCard() {
+  const choices_From = new Choices(document.querySelector(".select-from"), {
+    searchEnabled: false,
+    itemSelectText: "",
+  });
+
+  const choices_To = new Choices(document.querySelector(".select-to"), {
+    searchEnabled: false,
+    itemSelectText: "",
+    // classNames: {
+    //   containerOuter: 'choices',
+    //   containerInner: 'choices__inner',
+    // }
+  });
 }
 
 async function renderCurrencyExchange_RT() {

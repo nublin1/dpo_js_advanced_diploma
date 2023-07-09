@@ -5,6 +5,7 @@
 .exchange-card,
 .currency-rt-card {
     border-radius: 25px;
+
     .card-body {
         padding: 25px;
     }
@@ -15,7 +16,7 @@
     background-color: $color-gray1;
 }
 
-.yourcurrency-card {    
+.yourcurrency-card {
     margin-bottom: 20px;
     box-shadow: 0px 0px 5px 5px $color-shadow;
 }
@@ -99,33 +100,33 @@
         grid-template-rows: 1fr 1fr;
         column-gap: 10px;
 
-        .exchange-form{
+        .exchange-form {
             grid-row: 1 / span 2;
-            grid-column: 1 / span 3;           
+            grid-column: 1 / span 3;
 
             .fieldset-exchange {
                 display: flex;
                 width: 100%;
-        
+
                 .exchange-from,
                 .exchange-to {
-                    width: 50%;   
+                    width: 50%;
                     margin-bottom: 20px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-        
+
                     label {
                         min-width: 15%;
                         margin-right: 15px;
                     }
 
-                    select {
-                        border-radius: 10px;
+                    .choices {
                         width: 100%;
+                        @include select;
                     }
                 }
-        
+
                 .exchange-from {
                     min-width: 15%;
                     margin-right: 5px;
@@ -134,7 +135,7 @@
                 .exchange-to {
                     text-align: center;
                 }
-        
+
                 .summary {
                     label {
                         margin-right: 15px;
@@ -144,6 +145,7 @@
 
             .fieldset-summary {
                 display: flex;
+                align-items: center;
 
                 label {
                     min-width: 15%;
@@ -151,6 +153,7 @@
                 }
 
                 input {
+                    padding: 10px 16px;
                     border-radius: 10px;
                     width: 100%;
                 }

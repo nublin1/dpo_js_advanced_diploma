@@ -1,0 +1,45 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.control-accounts {
+    padding-top: 20px;
+    margin-bottom: 35px;  
+
+    h1 {
+        margin-right: 35px;
+    }
+
+    .choices {
+        margin-right: auto;
+        min-width: 300px;
+
+        @include select;
+    }
+}
+
+.account-card {
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px #CCC0B9;
+
+    .card-body {
+        position: relative;
+
+        h5 {
+            margin-bottom: 10px;
+        }
+
+        h6 {
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        button {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+    }
+}

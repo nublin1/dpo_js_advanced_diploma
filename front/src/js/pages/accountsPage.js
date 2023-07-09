@@ -2,6 +2,8 @@ import { el } from "redom";
 import { formatMonthDate } from "../utils.js";
 import { createNewAccount, getUserAccounts } from "../api.js";
 import renderAdvancedAccountInfoPage from "./advancedAccountInfo.js";
+import Choices from "choices.js";
+
 
 let accs = null;
 
@@ -12,11 +14,8 @@ export async function renderAccountsPage() {
   const controlAccountsWrapper = el("div", {
     class: "control-accounts d-flex  mb-3",
   });
-  const h1 = el("h1", { class: "" }, "Ваши счета");
-  const sortingType = el("select", {
-    class: "p-2 me-auto",
-    id: "sorting-type",
-  });
+  const h1 = el("h1", { class: " " }, "Ваши счета");
+  let sortingType = el("select", { class: "p-2 me-auto",  id: "sorting-type" });
   const sortingTypeOptions = [
     { value: "number", label: "По номеру" },
     { value: "balance", label: "По балансу" },
@@ -26,7 +25,7 @@ export async function renderAccountsPage() {
   sortingTypeOptions.forEach((option) => {
     const optionEl = el("option", { value: option.value }, option.label);
     sortingType.append(optionEl);
-  });
+  });  
 
   configureSortBtn(sortingType);
 
@@ -63,6 +62,12 @@ async function loadData() {
   }
 
   renderAccounts(accs.payload);
+
+  const choices = new Choices(document.getElementById("sorting-type"), {
+    searchEnabled: false,
+    itemSelectText: "",
+  });
+
 }
 
 function renderAccounts(array) {

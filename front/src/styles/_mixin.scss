@@ -10,3 +10,15 @@
     border: none;
     cursor: pointer;
 }
+
+@mixin select {  
+    .choices__inner {
+        background: transparent;
+        border: 1px solid $color-gray2;
+        border-radius: 10px;
+
+        .choices__input {
+            background: transparent;
+        }
+    }
+}

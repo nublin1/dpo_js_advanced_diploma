@@ -51,3 +51,26 @@ export function formatDate(dateIn) {
   return formattedDate;
 }
 
+export function saveAccount(account) {
+  const storedArray = localStorage.getItem("accountAutocompleteNumbers");
+  let accountAutocompleteNumbers;
+  if (storedArray === null) {
+    accountAutocompleteNumbers = [];
+    accountAutocompleteNumbers.push(account);
+  }
+  else {
+    accountAutocompleteNumbers = JSON.parse(storedArray);
+    const foundIndex = accountAutocompleteNumbers.indexOf(account);
+    if (foundIndex === -1) {
+      accountAutocompleteNumbers.push(account);
+    }
+  }  
+ 
+  localStorage.setItem("accountAutocompleteNumbers", JSON.stringify(accountAutocompleteNumbers));
+}
+
+export function loadAccounts() {
+  const storedArray = localStorage.getItem("accountAutocompleteNumbers");
+  const accountAutocompleteNumbers = storedArray ? JSON.parse(storedArray) : [];
+  return accountAutocompleteNumbers; 
+}

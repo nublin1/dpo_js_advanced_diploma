@@ -25,9 +25,10 @@
                     justify-self: flex-end;
                 }
 
-                input {
+                .choices {
                     width: 100%;
                     justify-self: flex-start;
+                    @include select;
                 }
             }
 
