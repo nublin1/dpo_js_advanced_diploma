@@ -157,7 +157,7 @@ async function loadData() {
     return;
   }
   //console.log(accountsInfo);
-  
+
   // choices = new Choices(document.querySelector(".input-to"), {    
   //   searchEnabled: false,
   //   itemSelectText: "",
@@ -172,7 +172,7 @@ async function loadData() {
   constructGraphics(accountsInfo.payload);
   constructTransactionsHistory(accountsInfo.payload);
   configureForm();
-  configureAutocomplete(loadAccounts());
+  configureAutocomplete();
 }
 
 function constructGraphics(accountsInfo) {
@@ -481,22 +481,61 @@ function hideFullAccountInfoPage() {
   document.querySelector(".balance-dynamic-card").style.cursor = "auto";
   document
     .querySelector(".balance-dynamic-card")
-    .removeEventListener("click", () => {});
+    .removeEventListener("click", () => { });
 
   document.querySelector(".history-card").style.cursor = "auto";
   document
     .querySelector(".history-card")
-    .removeEventListener("click", () => {});
+    .removeEventListener("click", () => { });
 }
 
-function configureAutocomplete(arr) {
+function configureAutocomplete() {
   const input = document.querySelector(".input-to");
+  const arr = loadAccounts();
+  let currentFocus;
 
+  input.addEventListener("input", (e) => {
+    let a, b, i, val = e.target.value;
+    if (!val) { return false; }
+    currentFocus = -1;
 
+    a = el("div", {});
+    a.setAttribute("id", "autocomplete-list");
+    a.setAttribute("class", "autocomplete-items");
 
+    for (i = 0; i < arr.length; i++) {
+      //if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+        b = el("div", { class: "autocomplete-item" }, arr[i]);
+        /* сделайте соответствующие буквы жирным шрифтом: */
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        b.innerHTML += arr[i].substr(val.length);
 
-  // input.addEventListener("input", () => {
-    
-  // })
+        b.addEventListener("click", function(e) {
+          input.value = this.textContent;
+          closeAllLists(e.target);
+        });
+
+        a.appendChild(b);
+      //}
+    }
+
+    const container = document.querySelector(".autocomplete-items");
+    if (!container) {
+      e.target.parentNode.appendChild(a);
+    }
+
+  })
 }
-a
+
+function closeAllLists(elmnt) {  
+  let x = document.getElementsByClassName("autocomplete-items");
+  for (var i = 0; i < x.length; i++) {
+    if (elmnt != x[i]) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+
+document.addEventListener("click", function (e) {
+  closeAllLists(e.target);
+});
