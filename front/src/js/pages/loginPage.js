@@ -2,8 +2,8 @@ import { el } from "redom";
 import {
   login,  
   getUserAccounts,  
-} from "./api";
-import { renderAccountsPage } from "./pages/accountsPage.js";
+} from "../api";
+import { renderAccountsPage } from "./accountsPage.js";
 
 export function renderSignInPage() {
   const container = el("div", {

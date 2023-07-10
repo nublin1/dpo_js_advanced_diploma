@@ -1,32 +1,37 @@
 export async function login(login, password) {
-  const response = await fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      login,
-      password,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      //console.log(data);
-      if (data.payload.token) {
-        localStorage.setItem("token", data.payload.token);
+  try {
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        login,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+     
+      if (data.error === "") {
+        const { token } = data.payload;
+        localStorage.setItem("token", token);
+      }      
+
+      if (data.error.includes("Invalid password")) {
+        alert("Неверный логин или пароль");
+      }
+      if (data.error.includes("No such user")) {
+        alert("Пользователь с таким логином не существует");
       }
       return data;
-    })
-    .catch((error) => {
-      if (error.data.contains("Invalid password")) {
-        alert("Неверный логин или пароль");
-      }
-      if (error.data.contains("No such user")) {
-        alert("пользователя с таким логином не существует");
-      }
-      return error;
-    });
-  return response;
+    }
+  } catch (error) {
+    //console.log(error);
+    return error;
+  }
 }
 
 export function logout() {

@@ -4,7 +4,7 @@ import { formatDate, getMonthName, saveAccount, loadAccounts } from "../utils";
 import { renderAccountsPage } from "./accountsPage";
 import { renderFullAccountInfoPage } from "./fullAccountInfo.js";
 import JustValidate from "just-validate";
-import Choices from "choices.js";
+
 
 let validator = null;
 let accountNumber = null;
@@ -150,19 +150,13 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
   loadData();
 }
 
-let choices;
+
 async function loadData() {
   const accountsInfo = await getAccountInfo(accountNumber);
   if (!accountsInfo) {
     return;
   }
   //console.log(accountsInfo);
-
-  // choices = new Choices(document.querySelector(".input-to"), {    
-  //   searchEnabled: false,
-  //   itemSelectText: "",
-  // });
-
 
   // Balance
   const balanceElement = document.querySelector(".account-base-info__balance");
@@ -376,6 +370,7 @@ function configureForm() {
     };
 
     Transfer(transfer);
+    saveAccount(transfer.to );
   });
   validator.onFail(function () {
     console.log("Form is invalid!");
@@ -460,7 +455,7 @@ function configureReturnBtn(btn) {
 async function Transfer(transfer) {
   let response = await transferFunds(transfer);
   if (response) {
-    saveAccount(response.payload.account);
+   
     loadData(document.querySelector(".account-base-info__number").value);
   }
 }
@@ -498,13 +493,14 @@ function configureAutocomplete() {
     let a, b, i, val = e.target.value;
     if (!val) { return false; }
     currentFocus = -1;
+    closeAllLists(e.target);
 
     a = el("div", {});
     a.setAttribute("id", "autocomplete-list");
     a.setAttribute("class", "autocomplete-items");
 
     for (i = 0; i < arr.length; i++) {
-      //if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+      if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
         b = el("div", { class: "autocomplete-item" }, arr[i]);
         /* сделайте соответствующие буквы жирным шрифтом: */
         b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
@@ -516,7 +512,7 @@ function configureAutocomplete() {
         });
 
         a.appendChild(b);
-      //}
+      }
     }
 
     const container = document.querySelector(".autocomplete-items");
