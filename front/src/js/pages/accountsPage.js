@@ -1,7 +1,7 @@
 import { el } from "redom";
 import { formatMonthDate } from "../utils.js";
 import { createNewAccount, getUserAccounts } from "../api.js";
-import renderAdvancedAccountInfoPage from "./advancedAccountInfo.js";
+
 import Choices from "choices.js";
 
 
@@ -46,7 +46,7 @@ export async function renderAccountsPage() {
   container.append(accountsWrapper);
 
   //
-  window.location.hash = '#' + "accounts";
+  
   document.getElementById("header-buttons").style.display = "block";
   const main = document.getElementById("main");
   main.innerHTML = "";
@@ -127,7 +127,8 @@ function configureAddNewAccBtn(button) {
 function configureOpenButton(button, accountNumber) {
   button.addEventListener("click", (e) => {
     e.preventDefault();
-    renderAdvancedAccountInfoPage(accountNumber);
+    window.location.hash = "#" + "account/" + accountNumber;
+   
   });
 }
 

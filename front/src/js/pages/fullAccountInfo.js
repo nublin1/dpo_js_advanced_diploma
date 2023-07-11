@@ -1,7 +1,6 @@
 import { el } from "redom";
 import { getAccountInfo } from "../api";
 import { formatDate, getMonthName } from "../utils";
-import renderAdvancedAccountInfoPage from "./advancedAccountInfo.js";
 
 let accountsInfo = null;
 let currentPage = 1; // Current page
@@ -108,7 +107,7 @@ export function renderFullAccountInfoPage(accountNumber) {
 
 function configureReturnBtn(btn, accountNumber) {
   btn.addEventListener("click", () => {
-    renderAdvancedAccountInfoPage(accountNumber);
+    window.location.hash = "#" + "account/" + accountNumber;    
   });
 }
 

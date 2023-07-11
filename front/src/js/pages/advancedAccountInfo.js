@@ -1,8 +1,7 @@
 import { el } from "redom";
-import { getUserAccounts, getAccountInfo, transferFunds } from "../api";
+import { getAccountInfo, transferFunds } from "../api";
 import { formatDate, getMonthName, saveAccount, loadAccounts } from "../utils";
-import { renderAccountsPage } from "./accountsPage";
-import { renderFullAccountInfoPage } from "./fullAccountInfo.js";
+
 import JustValidate from "just-validate";
 
 
@@ -445,10 +444,7 @@ async function configureGraphics(data) {
 
 function configureReturnBtn(btn) {
   btn.addEventListener("click", async () => {
-    let accs = await getUserAccounts();
-    if (accs) {
-      renderAccountsPage(accs.payload);
-    }
+    window.location.hash = "#" + "accounts";
   });
 }
 
@@ -464,11 +460,11 @@ function showFullAccountInfoPage(accountNumber) {
   document
     .querySelector(".balance-dynamic-card")
     .addEventListener("click", () => {
-      renderFullAccountInfoPage(accountNumber);
+      window.location.hash = "#" + "fullAccount/" + accountNumber;     
     });
 
   document.querySelector(".history-card").addEventListener("click", () => {
-    renderFullAccountInfoPage(accountNumber);
+    window.location.hash = "#" + "fullAccount/" + accountNumber;   
   });
 }
 

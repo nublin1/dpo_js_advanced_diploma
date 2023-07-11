@@ -41,7 +41,7 @@ export function renderSignInPage() {
       let response2 = await getUserAccounts();
       //console.log(response2);
       if (response2) {
-        renderAccountsPage(response2.payload);
+        window.location.hash = '#' + "accounts";
       }
     }
   });
@@ -51,7 +51,7 @@ export function renderSignInPage() {
   container.append(h1, form);
 
   //
-  window.location.hash = '#' + "login";
+  
   document.getElementById("header-buttons").style.display = "none";
   const main = document.getElementById("main");
   main.innerHTML = "";
