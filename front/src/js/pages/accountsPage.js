@@ -46,6 +46,7 @@ export async function renderAccountsPage() {
   container.append(accountsWrapper);
 
   //
+  window.location.hash = '#' + "accounts";
   document.getElementById("header-buttons").style.display = "block";
   const main = document.getElementById("main");
   main.innerHTML = "";
