@@ -6,6 +6,7 @@
 @import "./pages/_fullAccountInfo.scss";
 @import "./pages/_currencyPage.scss";
 @import "./pages/_ATMs.scss";
+@import "./pages/_loginPage.scss";
 
 .button {
     @include button;
@@ -32,32 +33,7 @@
     border: 1px solid $color-brand-secondary-2;
 }
 
-.signIn-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
 
-    background-color: $color-gray-light;
-    padding: 20px;
-    border-radius: 10px;
-
-    h1 {
-        margin: 0;
-        margin-bottom: 40px;
-        padding-top: 50px;
-        text-align: center;
-    }
-
-    form {
-        text-align: center;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-    }
-}
 
 
 // account advanced info

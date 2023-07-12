@@ -16,19 +16,20 @@ export function renderSignInPage() {
   fieldset.style.width = "100%";
 
   const loginWrapper = el("div", {
-    class: "row justify-content-start align-items-center",
+    class: " ",
   });
-  const labelLogin = el("label", { class: "col-2" }, "Логин");
-  const loginInput = el("input", { class: "col-auto", value: "developer" });
+  const labelLogin = el("label", { class: "" }, "Логин");
+  const loginInput = el("input", { class: "", value: "developer" });
   loginWrapper.append(labelLogin, loginInput);
 
   const passwordWrapper = el("div", {
-    class: "row justify-content-start align-items-center",
+    class: " ",
   });
-  const labelPassword = el("label", { class: "col-2" }, "Пароль");
-  const passwordInput = el("input", { class: "col-auto", value: "skillbox" });
+  const labelPassword = el("label", { class: "" }, "Пароль");
+  const passwordInput = el("input", { class: "", value: "skillbox" });
   passwordWrapper.append(labelPassword, passwordInput);
 
+  const buttonWrapper = el("div", { class: "buttons", });
   const button = el(
     "button",
     { class: "button button-primary", id: "signIn" },
@@ -46,8 +47,9 @@ export function renderSignInPage() {
     }
   });
 
-  fieldset.append(loginWrapper, passwordWrapper, button);
-  form.append(fieldset);
+  buttonWrapper.append(button);
+  fieldset.append(loginWrapper, passwordWrapper);
+  form.append(fieldset, buttonWrapper);
   container.append(h1, form);
 
   //
