@@ -11,17 +11,22 @@
 
     background-color: $color-gray-light;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 30px;
 
     h1 {
         margin: 0;
         margin-bottom: 35px;
         padding-top: 50px;
-        padding-left: calc(20% + 15px);        
+        padding-left: calc(20% + 15px);
+
+        font-family: 'WorkSans';
+        font-weight: bold;       
+        font-size: 34px;
+
     }
 
     form {
-       
+
         padding-left: 40px;
         padding-right: 85px;
 
@@ -41,14 +46,26 @@
                     margin-right: 20px;
                     grid-column: 1 / span 1;
                     justify-self: flex-end;
+                    align-self: center;
+
+                    font-family: 'Ubuntu';
+                    font-weight: normal;
+                    font-size: 16px;
                 }
 
                 input {
+                    padding: 10px 16px;
+
                     grid-column: 2 / span 1;
 
                     border: 1px solid #9CA3AF;
+                    border-radius: 5px;
                     width: 100%;
                     justify-self: flex-start;
+
+                    font-family: 'Ubuntu';
+                    font-weight: normal;
+                    font-size: 16px;
                 }
             }
 
@@ -59,7 +76,7 @@
         }
 
         .buttons {
-            padding-left: calc(20% );  
+            padding-left: calc(20%);
         }
 
     }

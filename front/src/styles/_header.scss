@@ -1,4 +1,5 @@
-.header { 
+.header {
+    margin-bottom: 45px;
     color: white;
     background-color: blue;
 }
@@ -10,13 +11,21 @@
 
     .logo {
         display: inline-block;
+
+        font-family: 'workSans';
+        font-weight: 300;
+        font-size: 48px;
     }
 }
 
 .header-buttons-list {
-   @include list-reset;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   gap : 20px;
+    @include list-reset;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+
+    .header-btn {
+        font-size: 16px;
+    }
 }

@@ -10,12 +10,12 @@ let accs = null;
 export async function renderAccountsPage() {
   const container = el("div", { class: "container accounts-container" });
 
-  // Upper part
+  //#region Upper part
   const controlAccountsWrapper = el("div", {
-    class: "control-accounts d-flex  mb-3",
+    class: "control-accounts d-flex  align-items-center",
   });
-  const h1 = el("h1", { class: " " }, "Ваши счета");
-  let sortingType = el("select", { class: "p-2 me-auto",  id: "sorting-type" });
+  const h1 = el("h1", { class: "control-accounts__heading" }, "Ваши счета");
+  let sortingType = el("select", { class: "control-accounts__sorting",  id: "sorting-type" });
   const sortingTypeOptions = [
     { value: "number", label: "По номеру" },
     { value: "balance", label: "По балансу" },
@@ -31,21 +31,22 @@ export async function renderAccountsPage() {
 
   const button = el(
     "button",
-    { class: "btn btn-primary add-account" },
+    { class: "btn btn-primary add-account align-self-stretch" },
     "+ Создать новый счет"
   );
   configureAddNewAccBtn(button);
   controlAccountsWrapper.append(h1, sortingType, button);
   container.append(controlAccountsWrapper);
+  //#endregion
 
-  // Lower part
-  const accountsWrapper = el("div", { class: "row d-flex justify-content-center accounts" });
+  //#region Lower part
+  const accountsWrapper = el("div", { class: "row justify-content-between accounts" });
   const spinner = el("div", { class: "spinner-border text-primary", role: "status" });
 
   accountsWrapper.append(spinner);   
   container.append(accountsWrapper);
 
-  //
+  //#endregion
   
   document.getElementById("header-buttons").style.display = "block";
   const main = document.getElementById("main");
@@ -67,6 +68,9 @@ async function loadData() {
   const choices = new Choices(document.getElementById("sorting-type"), {
     searchEnabled: false,
     itemSelectText: "",
+    classNames: {
+      
+    }
   });
 
 }
@@ -81,29 +85,29 @@ function renderAccounts(array) {
 }
 
 function createAccountCard(account) {
-  const card = el("div", { class: "col-4 card account-card " });
+  const card = el("div", { class: "col-3 card account-card " });
 
   const cardBody = el("div", { class: "card-body" });
-  const cardTitle = el("h5", { class: "card-title" }, account.account);
+  const cardTitle = el("h5", { class: "account-card__title" }, account.account);
   const formatedBalance = account.balance.toLocaleString("ru-RU");
-  const price = el("p", {}, formatedBalance + " ₽");
+  const summa = el("p", {class: "account-card__summa"}, formatedBalance + " ₽");
   const lastTransactionHeader = el("h6", {}, "Последняя транзакция:");
 
   let date =
     account.transactions.length > 0
       ? new Date(account.transactions[0].date)
       : null;
-  const lastTransaction = el("p", {}, formatMonthDate(date));
+  const lastTransaction = el("p", {class: "account-card__last-transaction"}, formatMonthDate(date));
   const buttonOpen = el(
     "button",
-    { class: "btn btn-primary open-account" },
+    { class: "btn btn-primary account-card__open-account" },
     "Открыть"
   );
   configureOpenButton(buttonOpen, account.account);
 
   cardBody.append(
     cardTitle,
-    price,
+    summa,
     lastTransactionHeader,
     lastTransaction,
     buttonOpen

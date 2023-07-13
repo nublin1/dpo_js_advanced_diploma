@@ -1,6 +1,14 @@
 @import "./../_variables.scss";
 @import "./../_mixin.scss";
 
+.currency-container {
+    h1 {
+        @include h1;
+        margin-bottom: 55px;
+    }
+
+}
+
 .yourcurrency-card,
 .exchange-card,
 .currency-rt-card {
@@ -19,35 +27,57 @@
 .yourcurrency-card {
     margin-bottom: 20px;
     box-shadow: 0px 0px 5px 5px $color-shadow;
+
+    .card-title {
+        margin-bottom: 25px;
+
+        font-family: 'worksans';
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .yourcurrency-list {
+        @include list-reset;
+        overflow-x: hidden;
+
+        .currency-item::before {
+            float: left;
+            width: 0;
+            white-space: nowrap;
+            color: green;
+            font-family: 'workSans';
+            font-weight: normal;
+            font-size: 20px;
+
+            content:
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+        }
+
+        .currency-item span:first-child {
+            padding-right: 0.33em;
+            background: white;
+
+            font-family: 'workSans';
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .currency-item span:last-child {
+            float: right;
+            padding-left: 0.33em;
+            background: white;
+
+            font-family: 'workSans';
+            font-weight: normal;
+            font-size: 20px;
+        }
+    }
 }
 
-.yourcurrency-list {
-    @include list-reset;
-    overflow-x: hidden;
 
-    .currency-item::before {
-        float: left;
-        width: 0;
-        white-space: nowrap;
-        color: green;
-        content:
-            ". . . . . . . . . . . . . . . . . . . . "
-            ". . . . . . . . . . . . . . . . . . . . "
-            ". . . . . . . . . . . . . . . . . . . . "
-            ". . . . . . . . . . . . . . . . . . . . "
-    }
-
-    .currency-item span:first-child {
-        padding-right: 0.33em;
-        background: white;
-    }
-
-    .currency-item span:last-child {
-        float: right;
-        padding-left: 0.33em;
-        background: white;
-    }
-}
 
 .currency-exchange-list {
     @include list-reset;
