@@ -86,7 +86,10 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
       id: "send",
       type: "submit",
     },
-    "Отправить"
+    [
+      el("span", { class: "icon-send" }),
+      "Отправить"      
+    ]
   );
   const errorsSpace = el("div", { class: "errors-space" });
 
@@ -108,7 +111,7 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
   const balanceDynamicCard = el("div", {
     class: "card balance-dynamic-card col",
   });
-  const balanceDynamicCardBody = el("div", { class: "card-body-balance" });
+  const balanceDynamicCardBody = el("div", { class: "card-body card-body-balance" });
   const balanceDynamicCardTitle = el("h5", {}, "Динамика баланса");
   const spinnerWrapper = el("div", {
     class: "d-flex justify-content-center",
@@ -160,7 +163,7 @@ async function loadData() {
   // Balance
   const balanceElement = document.querySelector(".account-base-info__balance");
   balanceElement.textContent =
-    Number(accountsInfo.payload.balance.toFixed(2)) + " ₽";
+    "Баланс: " + Number(accountsInfo.payload.balance.toFixed(2)) + " ₽";
 
   constructGraphics(accountsInfo.payload);
   constructTransactionsHistory(accountsInfo.payload);

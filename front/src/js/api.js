@@ -199,6 +199,7 @@ export function getAllCurrencies() {
     .catch((error) => {
       console.log(error);
     });
+  return response;
 }
 
 export async function currencyBuy(from, to, amount) {

@@ -16,6 +16,14 @@
 
     .card-body {
         padding: 25px;
+
+        .card-title {
+            margin-bottom: 25px;
+
+            font-family: 'worksans';
+            font-weight: bold;
+            font-size: 20px;
+        }
     }
 }
 
@@ -27,14 +35,6 @@
 .yourcurrency-card {
     margin-bottom: 20px;
     box-shadow: 0px 0px 5px 5px $color-shadow;
-
-    .card-title {
-        margin-bottom: 25px;
-
-        font-family: 'worksans';
-        font-weight: bold;
-        font-size: 20px;
-    }
 
     .yourcurrency-list {
         @include list-reset;
@@ -77,17 +77,24 @@
     }
 }
 
-
+.currency-rt-card{
+    overflow-y: hidden;
+    max-height: 53vh;
+}
 
 .currency-exchange-list {
     @include list-reset;
-    overflow-x: hidden;
+    overflow-x: hidden;    
 
-    .currency-item.green-pseudo {
+    font-family: 'workSans';
+    font-weight: normal;
+    font-size: 20px;
+
+    .currency-item--green {
         color: green;
     }
 
-    .currency-item.red-pseudo {
+    .currency-item--red {
         color: red;
     }
 
@@ -103,21 +110,29 @@
     }
 
     .currency-item {
+        .currency-item__name {
+            padding-right: 0.33em;
+            color: black;
+            background: $color-gray1;
+
+            font-family: 'workSans';
+            font-weight: 600;
+            font-size: 20px;
+        }
+
         .rate-wrapper {
             float: right;
             padding-left: 0.33em;
             background: $color-gray1;
 
-            .span:nth-child(1) {
+            span:first-child {
                 color: black;
+
+                font-family: 'workSans';
+                font-weight: normal;
+                font-size: 20px;
             }
         }
-    }
-
-    .currency-item span:first-child {
-        padding-right: 0.33em;
-        color: black;
-        background: $color-gray1;
     }
 }
 
@@ -134,12 +149,12 @@
             grid-row: 1 / span 2;
             grid-column: 1 / span 3;
 
-            .fieldset-exchange {
+            .exchange-form__fieldset {
                 display: flex;
                 width: 100%;
 
-                .exchange-from,
-                .exchange-to {
+                .exchange-form__from,
+                .exchange-form__to {
                     width: 50%;
                     margin-bottom: 20px;
                     display: flex;
@@ -149,48 +164,73 @@
                     label {
                         min-width: 15%;
                         margin-right: 15px;
+
+                        font-family: 'ubuntu';
+                        font-weight: bold;
+                        font-size: 16px;
+                        line-height: 20px;
                     }
 
                     .choices {
                         width: 100%;
                         @include select;
+
+                        .choices__inner {
+                            text-align: left;
+
+                            font-family: 'ubuntu';
+                            font-weight: normal;
+                            font-size: 16px;
+                        }
+
+                        .choices__list--dropdown {
+                            font-family: 'ubuntu';
+                            font-weight: normal;
+                            font-size: 16px;
+
+                            .is-highlighted {
+                                background-color: $color-state-info2;
+                            }
+                        }
                     }
                 }
 
-                .exchange-from {
-                    min-width: 15%;
+                .exchange-form__from {                   
                     margin-right: 5px;
                 }
 
-                .exchange-to {
-                    text-align: center;
-                }
-
-                .summary {
-                    label {
-                        margin-right: 15px;
-                    }
+                .exchange-form__to {
+                   text-align: center;
                 }
             }
 
-            .fieldset-summary {
+            .exchange-form__fieldset-summary {
                 display: flex;
                 align-items: center;
 
                 label {
                     min-width: 15%;
                     margin-right: 5px;
+
+                    font-family: 'ubuntu';
+                    font-weight: bold;
+                    font-size: 16px;
                 }
 
                 input {
                     padding: 10px 16px;
-                    border-radius: 10px;
+                    border: 1px solid $color-gray2;
+                    border-radius: 7px;
                     width: 100%;
+
+                    font-family: 'ubuntu';
+                    font-weight: normal;
+                    font-size: 16px;
                 }
             }
         }
 
-        .exchange-Button {
+        .exchange-form__button {
             grid-row: 1 / span 2;
             grid-column: 4 / span 1;
             height: 100%;

@@ -3,7 +3,7 @@ import {
   getCurrencies,
   getCurrencyExchangeRate,
   openCurrencyExchangeRate,
-  allCurrenciesList,
+  getAllCurrencies,
   currencyBuy,
 } from "./../api";
 import Choices from "choices.js";
@@ -11,10 +11,10 @@ import Choices from "choices.js";
 export async function renderCurrencyPage() {
   const container = el("div", { class: "container currency-container" });
 
-  //
-  const h1 = el("h1", { class: "" }, "Валютный обмен");
+  //Upper part
+  const h1 = el("h1", { class: "currency-container__heading" }, "Валютный обмен");
 
-  //
+  // Main columns
   const mainRow = el("div", { class: "row gx-5" });
   const leftSide = el("div", { class: "col" });
   const rightSide = el("div", { class: "col" });
@@ -43,23 +43,15 @@ export async function renderCurrencyPage() {
     class: "exchange-data",
   });
   const exchangeForm = el("form", { class: "exchange-form" });
-  const exchangeFieldset = el("fieldset", { class: "fieldset-exchange" });
-  const exchangeFromWrapper = el("div", { class: "exchange-from" });
-  const exchangeFromLabel = el("label", { class: "" }, "Из");
-  const exchangeFromSelect = el("select", { class: "select-from" });
-  for (let i = 0; i < allCurrenciesList.length; i++) {
-    const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i]);
-    exchangeFromSelect.append(option);
-  }
+  const exchangeFieldset = el("fieldset", { class: "exchange-form__fieldset" });
+  const exchangeFromWrapper = el("div", { class: "exchange-form__from" });
+  const exchangeFromLabel = el("label", { class: "exchange-form__label" }, "Из");
+  const exchangeFromSelect = el("select", { class: "exchange-form__select-from" });  
   exchangeFromWrapper.append(exchangeFromLabel, exchangeFromSelect);
 
-  const exchangeToWrapper = el("div", { class: "exchange-to" });
-  const exchangeToLabel = el("label", { class: "" }, "в");
-  const exchangeToSelect = el("select", { class: "select-to" });
-  for (let i = 0; i < allCurrenciesList.length; i++) {
-    const option = el("option", { value: allCurrenciesList[i] }, allCurrenciesList[i]);
-    exchangeToSelect.append(option);
-  }
+  const exchangeToWrapper = el("div", { class: "exchange-form__to" });
+  const exchangeToLabel = el("label", { class: "exchange-form__label" }, "в");
+  const exchangeToSelect = el("select", { class: "exchange-form__select-to" });  
   exchangeToWrapper.append(exchangeToLabel, exchangeToSelect);
   exchangeFieldset.append(
     exchangeFromWrapper,
@@ -67,23 +59,19 @@ export async function renderCurrencyPage() {
   );
   exchangeForm.append(exchangeFieldset);
 
-  const fieldsetSummary = el("fieldset", { class: "fieldset-summary" });
-  const summaryLabel = el("label", { class: "" }, "Сумма");
-  const summaryInput = el("input", { class: "" });
+  const fieldsetSummary = el("fieldset", { class: "exchange-form__fieldset-summary" });
+  const summaryLabel = el("label", { class: "exchange-form__label" }, "Сумма");
+  const summaryInput = el("input", { class: "exchange-form__summary-input" });
   fieldsetSummary.append(summaryLabel, summaryInput);
 
   exchangeForm.append(fieldsetSummary);
 
   const exchangeButton = el(
     "button",
-    { class: "btn btn-primary exchange-Button align-self-center" },
+    { class: "btn btn-primary exchange-form__button align-self-center" },
     "Обменять"
   );
-  exchangeButton.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const answer = await currencyBuy(exchangeFromSelect.value, exchangeToSelect.value, summaryInput.value);
-    await reloadYourCurrencyList(document.querySelector(".yourcurrency-list"));
-  });
+  
   exchangeData.append(exchangeForm, exchangeButton);
   currencyExchangeCardBody.append(currencyExchangeTitle, exchangeData);
   currencyExchangeCard.append(currencyExchangeCardBody);
@@ -98,7 +86,7 @@ export async function renderCurrencyPage() {
   const currencyRTChangedTitle = el(
     "h5",
     { class: "card-title" },
-    "Измененные курсов в реальном времени"
+    "Измененные курсы в реальном времени"
   );
   const currencyRTChangedList = el("ul", { class: "currency-exchange-list" });
 
@@ -116,22 +104,39 @@ export async function renderCurrencyPage() {
   main.innerHTML = "";
   main.appendChild(container);
   renderCurrencyExchange_RT();
-  cinfigureCurrencyExcCard();
+  configureCurrencyExcCard();
 }
 
-function cinfigureCurrencyExcCard() {
-  const choices_From = new Choices(document.querySelector(".select-from"), {
+async function configureCurrencyExcCard() {
+  const allCurrenciesList = await getAllCurrencies();
+  const exchangeFromSelect = document.querySelector(".exchange-form__select-from");
+  const exchangeToSelect = document.querySelector(".exchange-form__select-to");  
+
+  for (let i = 0; i < allCurrenciesList.payload.length; i++) {
+    const option = el("option", { value: allCurrenciesList.payload[i] }, allCurrenciesList.payload[i]);
+    exchangeFromSelect.append(option);
+  }
+
+  for (let i = 0; i < allCurrenciesList.payload.length; i++) {
+    const option = el("option", { value: allCurrenciesList.payload[i] }, allCurrenciesList.payload[i]);
+    exchangeToSelect.append(option);
+  }
+
+  const choices_From = new Choices(document.querySelector(".exchange-form__select-from"), {
     searchEnabled: false,
     itemSelectText: "",
   });
 
-  const choices_To = new Choices(document.querySelector(".select-to"), {
+  const choices_To = new Choices(document.querySelector(".exchange-form__select-to"), {
     searchEnabled: false,
     itemSelectText: "",
-    // classNames: {
-    //   containerOuter: 'choices',
-    //   containerInner: 'choices__inner',
-    // }
+  });
+
+  document.querySelector(".exchange-form__button").addEventListener("click", async (e) => {
+    e.preventDefault();
+    document.querySelector(".exchange-form__summary-input").value = "";
+    const answer = await currencyBuy(exchangeFromSelect.value, exchangeToSelect.value, summaryInput.value);
+    await reloadYourCurrencyList(document.querySelector(".yourcurrency-list"));
   });
 }
 
@@ -146,24 +151,19 @@ async function renderCurrencyExchange_RT() {
     const ans = await getCurrencyExchangeRate(soc);
 
     const currencyRTChangedItem = el("li", {
-      class: "currency-item green-pseudo",
+      class: ans.change === 1 ? "currency-item currency-item--green" : "currency-item currency-item--red",
     });
-    const itemName = el("span", ans.from + " / " + ans.to);
+    const itemName = el("span",{ class: "currency-item__name"}, ans.from + " / " + ans.to);
     const itemRateWrapper = el("div", { class: "rate-wrapper" });
     const itemRate = el("span", ans.rate);
     const itemArrow = el("span", ans.change === 1 ? "▲" : "▼");
     itemRateWrapper.append(itemRate, itemArrow);
     currencyRTChangedItem.append(itemName, itemRateWrapper);
-    ans.change === 1
-      ? currencyRTChangedItem.classList.add("green-pseudo")
-      : currencyRTChangedItem.classList.add("red-pseudo");
 
-    const attachList = currencyRTChangedCard.getElementsByClassName(
-      "currency-exchange-list"
-    )[0];
+    const attachList = currencyRTChangedCard.querySelector(".currency-exchange-list");
 
     attachList.prepend(currencyRTChangedItem);
-    if (attachList.children.length > 21) {
+    if (attachList.children.length > 22) {
       attachList.removeChild(attachList.lastChild);
     }
   }, 1000);

@@ -6,63 +6,199 @@
     padding-bottom: $padding-container;
 }
 
-.transaction-card {
-    .card-body {
-        h5 {
-            margin-bottom: 20px;
-        }
+.header-wrapper {
+    margin-bottom: 30px;
 
-        .transaction-form {
+    .header-wrapper__title {
+        @include h1;
+    }
 
-            fieldset {
-                position: relative;
-                margin-bottom: 25px;
-                display: grid;
-                grid-template-columns: 40% auto;
-                column-gap: 15px;
-
-                label {
-                    min-width: 50%;
-                    justify-self: flex-end;
-                }
-
-                input {
-                    border: 1px solid #9CA3AF;
-                    width: 100%;
-                    justify-self: flex-start;
-                }
-
-                .autocomplete-items {
-                    position: absolute;
-                    border: 1px solid #d4d4d4;
-                    border-bottom: none;
-                    border-top: none;
-                    z-index: 99;
-                    /* расположите элементы автозаполнения так, чтобы они имели ту же ширину, что и контейнер: */
-                    top: 100%;
-                    left: calc(40% + 15px);
-                    right: 0;
-
-                    & div {
-                        padding: 10px;
-                        cursor: pointer;
-                        background-color: #fff;
-                        border-bottom: 1px solid #d4d4d4;
-                    }
-                }
-            }
-
-            .send-transaction-button-wrapper {
-                padding-left: 40%;
-            }
-        }
+    .header-wrapper__btn {
+        @include button;
     }
 }
 
-.balance-dynamic-card {
-    cursor: pointer;
+.account-base-info {
+    margin-bottom: 50px;
+
+    .account-base-info__number {
+        font-family: 'worksans';
+        font-weight: normal;
+        font-size: 34px;
+    }
+
+    .account-base-info__balance {
+        font-family: 'worksans';
+        font-weight: bold;
+        font-size: 20px;
+    }
 }
 
+.transaction-card,
+.balance-dynamic-card,
 .history-card {
-    cursor: pointer;
+    border-radius: 50px;
+
+    .card-body {
+        padding: 25px 50px;
+
+        h5 {
+            @include h6;
+            margin-bottom: 25px;
+
+            font-size: 20px;
+        }
+    }
+
+
+}
+
+.transfer-wrapper {
+    margin-bottom: 50px;
+    gap: 50px;
+
+    .transaction-card {
+        background-color: $color-gray3;
+        border: none;
+
+        .card-body {
+            .transaction-form {
+
+                fieldset {
+                    position: relative;
+                    margin-bottom: 25px;
+                    display: grid;
+                    grid-template-columns: 40% auto;
+                    column-gap: 15px;
+                    align-items: center;
+
+                    label {
+                        min-width: 50%;
+                        justify-self: flex-end;
+
+                        font-family: 'ubuntu';
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 20px;
+                    }
+
+                    input {
+                        padding: 10px 15px;
+                        border-radius: 10px;
+                        border: 1px solid $color-gray2;
+
+                        width: 100%;
+                        justify-self: flex-start;
+
+                        font-family: 'ubuntu';
+                        font-weight: 400;
+                        font-size: 16px;
+                        line-height: 24px;
+                    }
+
+                    .autocomplete-items {
+                        position: absolute;
+                        border: 1px solid #d4d4d4;
+                        border-bottom: none;
+                        border-top: none;
+                        z-index: 99;
+                        /* расположите элементы автозаполнения так, чтобы они имели ту же ширину, что и контейнер: */
+                        top: 100%;
+                        left: calc(40% + 15px);
+                        right: 0;
+
+                        & div {
+                            padding: 10px;
+                            cursor: pointer;
+                            background-color: #fff;
+                            border-bottom: 1px solid #d4d4d4;
+                        }
+                    }
+                }
+
+                .send-transaction-button-wrapper {
+                    padding-left: calc(40% + 15px);
+
+                    .send-transaction-button {
+                        @include button;
+                        display: flex;
+
+                        span {
+                            display: inline-block;
+                            margin-right: 10px;
+                            background-image: url("./../img/icons/mail.svg");
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+
+                    
+                }
+            }
+        }
+    }
+
+    .balance-dynamic-card {
+        border: none;
+        box-shadow: 0 5px 20px 0 $color-shadow;
+        cursor: pointer;
+    }
+}
+
+.history-wrapper {
+    .history-card {
+        background-color: $color-gray3;
+        cursor: pointer;
+        border: none;
+
+        .history-table {
+            .history-table__head {
+                padding: 20px 50px;
+
+                tr {
+                    background-color: $color-brand-primary-1;
+
+                    font-family: 'ubuntu';
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: 24px;
+                    color: white;
+
+                    th {
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+
+                    th:first-child {
+                        padding-left: 50px;
+                        border-radius: 15px 0 0 15px;
+                    }
+
+                    th:last-child {
+                        padding-right: 50px;
+                        border-radius: 0 15px 15px 0;
+                    }
+                }
+
+            }
+        }
+
+        .history-table__body {
+            tr {
+                td {
+                    padding-top: 23px;
+                    padding-bottom: 23px;
+
+                    font-family: 'ubuntu';
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                td:first-child {
+                    padding-left: 50px;
+                }
+            }
+        }
+    }
 }
