@@ -15,6 +15,7 @@
 
     .header-wrapper__btn {
         @include button;
+        padding: 15px 25px;
     }
 }
 
@@ -28,15 +29,22 @@
     }
 
     .account-base-info__balance {
+        span {
+            font-family: 'worksans';
+            font-weight: bold;
+            font-size: 20px;
+        }
+       
         font-family: 'worksans';
-        font-weight: bold;
+        font-weight: normal;
         font-size: 20px;
     }
 }
 
 .transaction-card,
 .balance-dynamic-card,
-.history-card {
+.history-card,
+.ratio-card {
     border-radius: 50px;
 
     .card-body {
@@ -130,9 +138,7 @@
                             width: 24px;
                             height: 24px;
                         }
-                    }
-
-                    
+                    }                    
                 }
             }
         }
@@ -142,6 +148,10 @@
         border: none;
         box-shadow: 0 5px 20px 0 $color-shadow;
         cursor: pointer;
+
+        p {
+            padding: 25px 50px;
+        }
     }
 }
 

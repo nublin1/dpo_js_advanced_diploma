@@ -4,7 +4,6 @@ import { formatDate, getMonthName, saveAccount, loadAccounts } from "../utils";
 
 import JustValidate from "just-validate";
 
-
 let validator = null;
 let accountNumber = null;
 
@@ -32,18 +31,18 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
   headerWrapper.append(h1, btnReturn);
 
   const accountBaseInfo = el("div", {
-    class: "row justify-content-space-between account-base-info",
+    class:
+      "row justify-content-space-between align-items-center account-base-info",
   });
   const accNumber = el(
     "p",
     { class: "col account-base-info__number" },
     "№ " + accountNumber
   );
-  const balance = el(
-    "p",
-    { class: "col-auto account-base-info__balance" },
-    "Баланс: " + "---"
-  );
+  const balance = el("p", { class: "col-auto account-base-info__balance" }, [
+    el("span", { class: "" }, "Баланс: "),
+    "---",
+  ]);
   accountBaseInfo.append(accNumber, balance);
 
   container.append(headerWrapper, accountBaseInfo);
@@ -86,10 +85,7 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
       id: "send",
       type: "submit",
     },
-    [
-      el("span", { class: "icon-send" }),
-      "Отправить"      
-    ]
+    [el("span", { class: "icon-send" }), "Отправить"]
   );
   const errorsSpace = el("div", { class: "errors-space" });
 
@@ -111,7 +107,9 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
   const balanceDynamicCard = el("div", {
     class: "card balance-dynamic-card col",
   });
-  const balanceDynamicCardBody = el("div", { class: "card-body card-body-balance" });
+  const balanceDynamicCardBody = el("div", {
+    class: "card-body card-body-balance",
+  });
   const balanceDynamicCardTitle = el("h5", {}, "Динамика баланса");
   const spinnerWrapper = el("div", {
     class: "d-flex justify-content-center",
@@ -152,7 +150,6 @@ export default function renderAdvancedAccountInfoPage(inputAccNumber) {
   loadData();
 }
 
-
 async function loadData() {
   const accountsInfo = await getAccountInfo(accountNumber);
   if (!accountsInfo) {
@@ -162,8 +159,10 @@ async function loadData() {
 
   // Balance
   const balanceElement = document.querySelector(".account-base-info__balance");
-  balanceElement.textContent =
-    "Баланс: " + Number(accountsInfo.payload.balance.toFixed(2)) + " ₽";
+  balanceElement.innerHTML =
+    "<span> Баланс: </span>" +
+    Number(accountsInfo.payload.balance.toFixed(2)) +
+    " ₽";
 
   constructGraphics(accountsInfo.payload);
   constructTransactionsHistory(accountsInfo.payload);
@@ -187,7 +186,7 @@ function constructGraphics(accountsInfo) {
   const transactions = accountsInfo.transactions;
   if (transactions.length === 0) {
     const element = document.querySelector(".balance-dynamic-card");
-    const infoText = el("p", {}, "Операции со счётом не проводились");
+    const infoText = el("p", {сlass: "info-text"}, "Операции со счётом не проводились");
 
     document.getElementById("spinner-balance").remove();
     element.append(infoText);
@@ -372,7 +371,7 @@ function configureForm() {
     };
 
     Transfer(transfer);
-    saveAccount(transfer.to );
+    saveAccount(transfer.to);
   });
   validator.onFail(function () {
     console.log("Form is invalid!");
@@ -405,6 +404,7 @@ async function configureGraphics(data) {
           label: "balance",
           data: data,
           borderWidth: 1,
+          backgroundColor: "rgba(17, 106, 204, 1)",
         },
       ],
     },
@@ -415,6 +415,11 @@ async function configureGraphics(data) {
         },
       },
       scales: {
+        x: {
+          ticks: {
+            font: { size: 20, family: "workSans", weight: 700 },
+          },
+        },
         y: {
           beginAtZero: true,
           position: "right",
@@ -425,6 +430,8 @@ async function configureGraphics(data) {
           max: Math.max(...data),
           ticks: {
             display: true, // Отобразить значения на оси
+            font: { size: 20, family: "workSans", weight: 500 },
+
             callback: function (value, index, values) {
               if (value === Math.max(...data) || value === Math.min(...data)) {
                 return value;
@@ -454,7 +461,6 @@ function configureReturnBtn(btn) {
 async function Transfer(transfer) {
   let response = await transferFunds(transfer);
   if (response) {
-   
     loadData(document.querySelector(".account-base-info__number").value);
   }
 }
@@ -463,11 +469,11 @@ function showFullAccountInfoPage(accountNumber) {
   document
     .querySelector(".balance-dynamic-card")
     .addEventListener("click", () => {
-      window.location.hash = "#" + "fullAccount/" + accountNumber;     
+      window.location.hash = "#" + "fullAccount/" + accountNumber;
     });
 
   document.querySelector(".history-card").addEventListener("click", () => {
-    window.location.hash = "#" + "fullAccount/" + accountNumber;   
+    window.location.hash = "#" + "fullAccount/" + accountNumber;
   });
 }
 
@@ -475,12 +481,12 @@ function hideFullAccountInfoPage() {
   document.querySelector(".balance-dynamic-card").style.cursor = "auto";
   document
     .querySelector(".balance-dynamic-card")
-    .removeEventListener("click", () => { });
+    .removeEventListener("click", () => {});
 
   document.querySelector(".history-card").style.cursor = "auto";
   document
     .querySelector(".history-card")
-    .removeEventListener("click", () => { });
+    .removeEventListener("click", () => {});
 }
 
 function configureAutocomplete() {
@@ -489,8 +495,13 @@ function configureAutocomplete() {
   let currentFocus;
 
   input.addEventListener("input", (e) => {
-    let a, b, i, val = e.target.value;
-    if (!val) { return false; }
+    let a,
+      b,
+      i,
+      val = e.target.value;
+    if (!val) {
+      return false;
+    }
     currentFocus = -1;
     closeAllLists(e.target);
 
@@ -505,7 +516,7 @@ function configureAutocomplete() {
         b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
         b.innerHTML += arr[i].substr(val.length);
 
-        b.addEventListener("click", function(e) {
+        b.addEventListener("click", function (e) {
           input.value = this.textContent;
           closeAllLists(e.target);
         });
@@ -518,11 +529,10 @@ function configureAutocomplete() {
     if (!container) {
       e.target.parentNode.appendChild(a);
     }
-
-  })
+  });
 }
 
-function closeAllLists(elmnt) {  
+function closeAllLists(elmnt) {
   let x = document.getElementsByClassName("autocomplete-items");
   for (var i = 0; i < x.length; i++) {
     if (elmnt != x[i]) {

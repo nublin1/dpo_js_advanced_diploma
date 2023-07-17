@@ -46,9 +46,11 @@ export function renderFullAccountInfoPage(accountNumber) {
 
   // graphics
   const balaceDynamicCard = el("div", {
-    class: "col card balace-dynamic-card",
+    class: "col card balance-dynamic-card",
   });
-  const balaceDynamicCardBody = el("div", { class: "card-body-balance" });
+  const balaceDynamicCardBody = el("div", {
+    class: "card-body card-body-balance",
+  });
   const balaceDynamicCardTitle = el("h5", {}, "Динамика баланса");
   const spinnerWrapper = el("div", {
     class: "d-flex justify-content-center",
@@ -66,7 +68,7 @@ export function renderFullAccountInfoPage(accountNumber) {
 
   // Ratio of incoming and outgoing transactions
   const ratioCard = el("div", { class: "col card ratio-card" });
-  const ratioCardBody = el("div", { class: "card-body-ratio" });
+  const ratioCardBody = el("div", { class: "card-body card-body-ratio" });
   const ratioCardTitle = el(
     "h5",
     {},
@@ -87,7 +89,7 @@ export function renderFullAccountInfoPage(accountNumber) {
   container.append(ratioCard);
 
   // history part
-  const historyCard = el("div", { class: "card col" });
+  const historyCard = el("div", { class: "card history-card col" });
   const historyCardBody = el("div", { class: "card-body" });
   const historyCardTitle = el("h5", {}, "История переводов");
 
@@ -107,7 +109,7 @@ export function renderFullAccountInfoPage(accountNumber) {
 
 function configureReturnBtn(btn, accountNumber) {
   btn.addEventListener("click", () => {
-    window.location.hash = "#" + "account/" + accountNumber;    
+    window.location.hash = "#" + "account/" + accountNumber;
   });
 }
 
@@ -242,6 +244,24 @@ async function loadData(accountNumber) {
     }
   }
 
+  // max and min transactions ratio
+  let maxPositiveRatio = 0;
+  let maxNegativeRatio = 0;
+  for (let i = 0; i < totalPerMonth.length; i++) {
+    if (totalTransactionsPerMonth[i] > 0) {
+      maxPositiveRatio = Math.max(
+        totalTransactionsPerMonth[i] - totalPositiveTransactions[i],
+        maxPositiveRatio
+      );
+      maxNegativeRatio = Math.max(
+        totalTransactionsPerMonth[i] -
+          (totalTransactionsPerMonth[i] - totalPositiveTransactions[i]),
+        maxNegativeRatio
+      );
+    }
+  }
+
+  //Процент положительных операций по месяцам
   totalPerMonth = totalPerMonth.map((number) => Number(number.toFixed(2)));
   let positivePercentPerMonth = new Array(12).fill(0);
   for (let i = 0; i < totalPerMonth.length; i++) {
@@ -253,7 +273,11 @@ async function loadData(accountNumber) {
   }
 
   configureDynamicGraphic(totalPerMonth);
-  configureRatioGraphic(totalPerMonth, positivePercentPerMonth);
+  configureRatioGraphic(
+    totalPerMonth,
+    positivePercentPerMonth,
+    Math.min(maxPositiveRatio, maxNegativeRatio)
+  );
   //#endregion
 }
 
@@ -312,6 +336,10 @@ function updatePagination() {
     pagination.appendChild(firstPageButton);
 
     const prevPageButton = createPageButton(currentPage - 1, "Предыдущая");
+    if (currentPage === 1) {
+      prevPageButton.setAttribute("disabled", "disabled");
+      prevPageButton.classList.add("disabled");
+    }
     pagination.appendChild(prevPageButton);
 
     let startPage = Math.max(
@@ -330,6 +358,10 @@ function updatePagination() {
     }
 
     const nextPageButton = createPageButton(currentPage + 1, "Следующая");
+    if (currentPage === countPages) {
+      nextPageButton.setAttribute("disabled", "disabled");
+      nextPageButton.classList.add("disabled");
+    }
     pagination.appendChild(nextPageButton);
 
     const lastPageButton = createPageButton(countPages, "В конец");
@@ -345,6 +377,7 @@ function updatePagination() {
 // Function to create a page button
 function createPageButton(page, label) {
   const pageButton = el("button", { class: "button page-button" }, label);
+
   pageButton.setAttribute("data-page", page);
   pageButton.addEventListener("click", () => {
     currentPage = page;
@@ -376,6 +409,7 @@ async function configureDynamicGraphic(data) {
           label: "balance",
           data: data,
           borderWidth: 1,
+          backgroundColor: "rgba(17, 106, 204, 1)",
         },
       ],
     },
@@ -387,6 +421,11 @@ async function configureDynamicGraphic(data) {
         },
       },
       scales: {
+        x: {
+          ticks: {
+            font: { size: 20, family: "workSans", weight: 700 },
+          },
+        },
         y: {
           beginAtZero: true,
           position: "right",
@@ -397,6 +436,7 @@ async function configureDynamicGraphic(data) {
           max: Math.max(...data),
           ticks: {
             display: true, // Отобразить значения на оси
+            font: { size: 20, family: "workSans", weight: 500 },
             callback: function (value, index, values) {
               if (value === Math.max(...data) || value === Math.min(...data)) {
                 return value;
@@ -415,7 +455,12 @@ async function configureDynamicGraphic(data) {
 }
 
 let graphRatio = null;
-async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
+let isDrawedMaxRatio = false;
+async function configureRatioGraphic(
+  totalPerMonth,
+  positivePercentPerMonth,
+  maxRatio
+) {
   const element = el("canvas", { id: "ratio-graph" });
   element.height = 250;
 
@@ -429,7 +474,7 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
     graphRatio.destroy();
   }
 
-  // gradients
+  //#region gradients
   const maxVal = Math.max(...totalPerMonth);
   const minVal = Math.min(...totalPerMonth);
   const totalHeight = maxVal + Math.abs(minVal);
@@ -450,6 +495,8 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
       )
     );
   }
+  //#endregion
+  
 
   graphRatio = new Chart(element, {
     type: "bar",
@@ -474,6 +521,11 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
         },
       },
       scales: {
+        x: {
+          ticks: {
+            font: { size: 20, family: "workSans", weight: 700 },
+          },
+        },
         y: {
           beginAtZero: false,
           position: "right",
@@ -485,6 +537,7 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
           max: Math.max(...totalPerMonth),
           ticks: {
             display: true, // Отобразить значения на оси
+            font: { size: 20, family: "workSans", weight: 500 },
             callback: function (value, index, values) {
               if (
                 value === Math.max(...totalPerMonth) ||
@@ -492,7 +545,12 @@ async function configureRatioGraphic(totalPerMonth, positivePercentPerMonth) {
               ) {
                 return value;
               } else {
-                return ""; // Оставить пустым для скрытия промежуточных значений
+                if (index === 2) {
+                  isDrawedMaxRatio = true;
+                  return maxRatio;
+                } else {
+                  return ""; // Оставить пустым для скрытия промежуточных значений
+                }
               }
             },
           },
