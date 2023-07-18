@@ -134,9 +134,11 @@ async function configureCurrencyExcCard() {
 
   document.querySelector(".exchange-form__button").addEventListener("click", async (e) => {
     e.preventDefault();
-    document.querySelector(".exchange-form__summary-input").value = "";
-    const answer = await currencyBuy(exchangeFromSelect.value, exchangeToSelect.value, summaryInput.value);
+   
+    const answer = await currencyBuy(exchangeFromSelect.value, exchangeToSelect.value, document.querySelector(".exchange-form__summary-input").value);
     await reloadYourCurrencyList(document.querySelector(".yourcurrency-list"));
+
+    document.querySelector(".exchange-form__summary-input").value = "";
   });
 }
 

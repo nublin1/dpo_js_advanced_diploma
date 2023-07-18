@@ -2,6 +2,8 @@
 @import "./../_mixin.scss";
 
 .currency-container {
+    padding-bottom: 50px;
+    
     h1 {
         @include h1;
         margin-bottom: 55px;
