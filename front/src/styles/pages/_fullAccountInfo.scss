@@ -1,0 +1,87 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.ratio-card {
+    .card-body {
+        canvas {
+            width: 100%;
+            min-height: 250px;
+        }
+    }
+}
+
+.fullAccountInfo-container {
+    .ratio-card,
+    .balance-dynamic-card {
+        margin-bottom: 50px;
+    
+        border: none;   
+        box-shadow: 0 5px 20px 0 $color-shadow;
+        cursor: auto;
+    }
+    
+    .history-card {
+        margin-bottom: 50px;
+        background-color: $color-gray3;
+        cursor: auto;
+        border: none;
+    
+        .history-table {
+            .history-table__head {
+                padding: 20px 50px;
+    
+                tr {
+                    background-color: $color-brand-primary-1;
+    
+                    font-family: 'ubuntu';
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: 24px;
+                    color: white;
+    
+                    th {
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+    
+                    th:first-child {
+                        padding-left: 50px;
+                        border-radius: 15px 0 0 15px;
+                    }
+    
+                    th:last-child {
+                        padding-right: 50px;
+                        border-radius: 0 15px 15px 0;
+                    }
+                }
+    
+            }
+        }
+    
+        .history-table__body {
+            tr {
+                td {
+                    padding-top: 23px;
+                    padding-bottom: 23px;
+    
+                    font-family: 'ubuntu';
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+    
+                td:first-child {
+                    padding-left: 50px;
+                }
+            }
+        }
+    
+        .history-table__foot {
+            .page-button.disabled {
+                background-color: $color-gray4;
+                cursor: default;
+            }
+        }
+    }
+}
+

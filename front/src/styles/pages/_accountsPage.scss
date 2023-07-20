@@ -1,0 +1,100 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.control-accounts {
+    margin-bottom: 50px;
+
+    h1 {
+        @include h1;
+        margin-right: 35px;
+    }
+
+    .choices {
+        margin-bottom: 0;
+        margin-right: auto;
+        min-width: 300px;
+
+        @include select;
+
+        .choices__inner {
+            border-color: $color-brand-primary-1;
+            padding: 10px 15px;
+
+            font-family: 'Ubuntu';
+            font-weight: normal;
+            font-size: 16px;
+        }
+
+        .choices__list--dropdown {
+            border-radius: 5px;
+
+            .choices__list {                
+                font-family: 'Ubuntu';
+                font-weight: normal;
+                font-size: 16px;
+
+                .choices__item {
+                    padding: 10px 15px;
+                }
+
+                .is-highlighted {
+                    background-color: $color-state-info2;
+                }
+            }
+        }
+    }
+
+    .add-account {
+        @include button;
+        padding: 16px 24px;
+    }
+}
+
+.accounts {
+    row-gap: 50px;
+}
+
+.account-card {
+    width: 30%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px #CCC0B9;
+
+    .card-body {
+        position: relative;
+
+        h5 {
+            margin-bottom: 10px;
+            @include h5;
+        }
+
+        .account-card__summa {
+            margin: 0;
+            margin-bottom: 30px;
+
+            font-family: 'Ubuntu';
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        h6 {
+            margin: 0;
+            @include h6;
+        }
+
+        .account-card__last-transaction {
+            margin: 0;
+
+            font-family: 'WorkSans';
+            font-weight: normal;
+            font-size: 13px;
+        }
+
+        button {
+            padding: 16px 21px;
+
+            position: absolute;
+            bottom: 22px;
+            right: 22px;
+        }
+    }
+}
