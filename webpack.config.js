@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    index: "./src/index.js",
+    index: "./front/src/index.js",
   },
   output: {
     filename: "index.[contenthash].js",
@@ -17,7 +17,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Форма оплаты",
-      template: path.join(__dirname, "src", "index.html"),
+    watchFiles: ["front/src/**/*"], // для отслеживания изменений всех файлов внутри директории src
+      template: path.join(__dirname, "front/src", "index.html"),
       filename: "index.html",
       scriptLoading: "defer",
       externals: {
@@ -103,6 +104,6 @@ module.exports = {
     hot: true,
     //port: 8080,
     compress: true,
-    watchFiles: ["src/**/*"], // для отслеживания изменений всех файлов внутри директории src
+    watchFiles: ["front/src/**/*"], // для отслеживания изменений всех файлов внутри директории src
   },
 };
