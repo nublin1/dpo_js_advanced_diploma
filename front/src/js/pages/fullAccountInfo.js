@@ -400,6 +400,23 @@ async function configureDynamicGraphic(data) {
     graphDynamic.destroy();
   }
 
+  const chartAreaBorder = {
+    id: "chartAreaBorder",
+    beforeDraw(chart, args, options) {
+      const {
+        ctx,
+        chartArea: { left, top, width, height },
+      } = chart;
+      ctx.save();
+      ctx.strokeStyle = options.borderColor;
+      ctx.lineWidth = options.borderWidth;
+      ctx.setLineDash(options.borderDash || []);
+      ctx.lineDashOffset = options.borderDashOffset;
+      ctx.strokeRect(left, top, width, height);
+      ctx.restore();
+    },
+  };
+
   graphDynamic = new Chart(element, {
     type: "bar",
     data: {
@@ -418,6 +435,10 @@ async function configureDynamicGraphic(data) {
       plugins: {
         legend: {
           display: false,
+        },
+        chartAreaBorder: {
+          borderColor: "black",
+          borderWidth: 2,
         },
       },
       scales: {
@@ -448,6 +469,7 @@ async function configureDynamicGraphic(data) {
         },
       },
     },
+    plugins: [chartAreaBorder],
   });
 
   document.getElementById("spinner-balance").remove();
@@ -497,6 +519,22 @@ async function configureRatioGraphic(
   }
   //#endregion
   
+  const chartAreaBorder = {
+    id: "chartAreaBorder",
+    beforeDraw(chart, args, options) {
+      const {
+        ctx,
+        chartArea: { left, top, width, height },
+      } = chart;
+      ctx.save();
+      ctx.strokeStyle = options.borderColor;
+      ctx.lineWidth = options.borderWidth;
+      ctx.setLineDash(options.borderDash || []);
+      ctx.lineDashOffset = options.borderDashOffset;
+      ctx.strokeRect(left, top, width, height);
+      ctx.restore();
+    },
+  };
 
   graphRatio = new Chart(element, {
     type: "bar",
@@ -518,6 +556,10 @@ async function configureRatioGraphic(
       plugins: {
         legend: {
           display: false,
+        },
+        chartAreaBorder: {
+          borderColor: "black",
+          borderWidth: 2,
         },
       },
       scales: {
@@ -557,6 +599,7 @@ async function configureRatioGraphic(
         },
       },
     },
+    plugins: [chartAreaBorder],
   });
 
   //
