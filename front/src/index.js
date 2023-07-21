@@ -7,25 +7,35 @@ import renderAdvancedAccountInfoPage from "./js/pages/advancedAccountInfo.js";
 import { renderFullAccountInfoPage } from "./js/pages/fullAccountInfo.js";
 import "./styles/style.scss";
 
-document.getElementById("ATMs").addEventListener("click",  (e) => {
+const btn_atms = document.getElementById("ATMs");
+const btn_accounts = document.getElementById("Accounts");
+const btn_currency = document.getElementById("Currency");
+const btn_exit = document.getElementById("Exit");
+
+btn_atms.addEventListener("click",  (e) => {
   e.preventDefault();
-  window.location.hash = "#" + "atms";  
+  window.location.hash = "#" + "atms";
+  setActiveBtn(e.target);
 });
 
-document.getElementById("Accounts").addEventListener("click", async (e) => {
+btn_accounts.addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.hash = "#" + "accounts";
+  setActiveBtn(e.target);
 });
 
-document.getElementById("Currency").addEventListener("click", async (e) => {
+btn_currency.addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.hash = "#" + "currency";
-  
+  setActiveBtn(e.target);
 });
 
-document.getElementById("Exit").addEventListener("click", (e) => {
+btn_exit.addEventListener("click", (e) => {
   logout();
   window.location.hash = "#" + "login";
+  btn_atms.classList.remove("header-btn-active");
+  btn_accounts.classList.remove("header-btn-active");
+  btn_currency.classList.remove("header-btn-active");
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -63,4 +73,13 @@ async function renderPage() {
     const result = hash.slice(lastIndex + 1);
     renderAdvancedAccountInfoPage(result);
   }
+}
+
+function setActiveBtn(btn) {
+  btn_atms.classList.remove("header-btn-active");
+  btn_accounts.classList.remove("header-btn-active");
+  btn_currency.classList.remove("header-btn-active");
+  
+
+  btn.classList.add("header-btn-active");
 }

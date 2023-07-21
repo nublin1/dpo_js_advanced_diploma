@@ -79,7 +79,7 @@ export async function renderCurrencyPage() {
 
   //
   const currencyRTChangedCard = el("div", {
-    class: "card currency-rt-card h-100",
+    class: "card currency-rt-card ",
     id: "currencyRTChangedCard",
   });
   const currencyRTChangedCardBody = el("div", { class: "card-body" });

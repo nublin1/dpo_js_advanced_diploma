@@ -48,6 +48,7 @@ export async function renderAccountsPage() {
 
   //#endregion
   
+  document.getElementById("Accounts").classList.add("header-btn-active");
   document.getElementById("header-buttons").style.display = "block";
   const main = document.getElementById("main");
   main.innerHTML = "";
