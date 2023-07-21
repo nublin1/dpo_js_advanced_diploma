@@ -395,6 +395,23 @@ async function configureGraphics(data) {
     graph.destroy();
   }
 
+  const chartAreaBorder = {
+    id: "chartAreaBorder",
+    beforeDraw(chart, args, options) {
+      const {
+        ctx,
+        chartArea: { left, top, width, height },
+      } = chart;
+      ctx.save();
+      ctx.strokeStyle = options.borderColor;
+      ctx.lineWidth = options.borderWidth;
+      ctx.setLineDash(options.borderDash || []);
+      ctx.lineDashOffset = options.borderDashOffset;
+      ctx.strokeRect(left, top, width, height);
+      ctx.restore();
+    },
+  };
+
   graph = new Chart(element, {
     type: "bar",
     data: {
@@ -412,6 +429,10 @@ async function configureGraphics(data) {
       plugins: {
         legend: {
           display: false,
+        },
+        chartAreaBorder: {
+          borderColor: "black",
+          borderWidth: 2,
         },
       },
       scales: {
@@ -443,6 +464,7 @@ async function configureGraphics(data) {
         },
       },
     },
+    plugins: [chartAreaBorder],
   });
 
   const spinner = document.getElementById("spinner-balance");
