@@ -4,7 +4,7 @@
 .signIn-container {
     position: absolute;
     width: 500px;
-    height: 366px;
+    min-height: 366px;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -66,15 +66,18 @@
                     font-weight: normal;
                     font-size: 16px;
                 }
-            }
 
-            div:last-child {
-                margin-bottom: 30px;
-            }
+                .just-validate-error-label {  
+                    margin: 0;
+                    display: block;                
+                    grid-column: 2 / span 1;
+                }
+            }           
 
         }
 
         .buttons {
+            padding-top: 30px;
             padding-left: calc(20%);
         }
 
