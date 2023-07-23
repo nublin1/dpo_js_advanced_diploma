@@ -1,0 +1,740 @@
+@charset "UTF-8";
+.header {
+  margin-bottom: 45px;
+  color: white;
+  background-color: blue;
+}
+
+.header-row {
+  min-height: 90px;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-row .logo {
+  display: inline-block;
+  font-family: "workSans";
+  font-weight: 300;
+  font-size: 48px;
+}
+
+.header-buttons-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+}
+.header-buttons-list .header-btn {
+  font-size: 16px;
+}
+
+.control-accounts {
+  margin-bottom: 50px;
+}
+.control-accounts h1 {
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 34px;
+  margin-right: 35px;
+}
+.control-accounts .choices {
+  margin-bottom: 0;
+  margin-right: auto;
+  min-width: 300px;
+}
+.control-accounts .choices .choices__inner {
+  background: transparent;
+  border: 1px solid #9CA3AF;
+  border-radius: 10px;
+}
+.control-accounts .choices .choices__inner .choices__input {
+  background: transparent;
+}
+.control-accounts .choices .choices__inner {
+  border-color: #116ACC;
+  padding: 10px 15px;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.control-accounts .choices .choices__list--dropdown {
+  border-radius: 5px;
+}
+.control-accounts .choices .choices__list--dropdown .choices__list {
+  font-family: "Ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.control-accounts .choices .choices__list--dropdown .choices__list .choices__item {
+  padding: 10px 15px;
+}
+.control-accounts .choices .choices__list--dropdown .choices__list .is-highlighted {
+  background-color: #A0C3FF;
+}
+.control-accounts .add-account {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: "Ubuntu";
+  font-weight: 500;
+  font-size: 16px;
+  padding: 16px 24px;
+}
+
+.accounts {
+  row-gap: 50px;
+}
+
+.account-card {
+  width: 30%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 5px #CCC0B9;
+}
+.account-card .card-body {
+  position: relative;
+}
+.account-card .card-body h5 {
+  margin-bottom: 10px;
+  font-family: "roboto";
+  font-weight: 500;
+  font-size: 18px;
+}
+.account-card .card-body .account-card__summa {
+  margin: 0;
+  margin-bottom: 30px;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  font-size: 14px;
+}
+.account-card .card-body h6 {
+  margin: 0;
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 13px;
+}
+.account-card .card-body .account-card__last-transaction {
+  margin: 0;
+  font-family: "WorkSans";
+  font-weight: normal;
+  font-size: 13px;
+}
+.account-card .card-body button {
+  padding: 16px 21px;
+  position: absolute;
+  bottom: 22px;
+  right: 22px;
+}
+
+.advancedAccountInfo-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.header-wrapper {
+  margin-bottom: 30px;
+}
+.header-wrapper .header-wrapper__title {
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 34px;
+}
+.header-wrapper .header-wrapper__btn {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: "Ubuntu";
+  font-weight: 500;
+  font-size: 16px;
+  padding: 15px 25px;
+}
+
+.account-base-info {
+  margin-bottom: 50px;
+}
+.account-base-info .account-base-info__number {
+  font-family: "worksans";
+  font-weight: normal;
+  font-size: 34px;
+}
+.account-base-info .account-base-info__balance {
+  font-family: "worksans";
+  font-weight: normal;
+  font-size: 20px;
+}
+.account-base-info .account-base-info__balance span {
+  font-family: "worksans";
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.transaction-card,
+.balance-dynamic-card,
+.history-card,
+.ratio-card {
+  border-radius: 50px;
+}
+.transaction-card .card-body,
+.balance-dynamic-card .card-body,
+.history-card .card-body,
+.ratio-card .card-body {
+  padding: 25px 50px;
+}
+.transaction-card .card-body h5,
+.balance-dynamic-card .card-body h5,
+.history-card .card-body h5,
+.ratio-card .card-body h5 {
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.transfer-wrapper {
+  margin-bottom: 50px;
+  gap: 50px;
+}
+.transfer-wrapper .transaction-card {
+  background-color: #F3F4F6;
+  border: none;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form fieldset {
+  position: relative;
+  margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: 40% auto;
+  -moz-column-gap: 15px;
+       column-gap: 15px;
+  align-items: center;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form fieldset label {
+  min-width: 50%;
+  justify-self: flex-end;
+  font-family: "ubuntu";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form fieldset input {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #9CA3AF;
+  width: 100%;
+  justify-self: flex-start;
+  font-family: "ubuntu";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form fieldset .autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /* расположите элементы автозаполнения так, чтобы они имели ту же ширину, что и контейнер: */
+  top: 100%;
+  left: calc(40% + 15px);
+  right: 0;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form fieldset .autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form .send-transaction-button-wrapper {
+  padding-left: calc(40% + 15px);
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form .send-transaction-button-wrapper .send-transaction-button {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: "Ubuntu";
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+}
+.transfer-wrapper .transaction-card .card-body .transaction-form .send-transaction-button-wrapper .send-transaction-button span {
+  display: inline-block;
+  margin-right: 10px;
+  background-image: url("./../img/icons/mail.svg");
+  width: 24px;
+  height: 24px;
+}
+.transfer-wrapper .balance-dynamic-card {
+  border: none;
+  box-shadow: 0 5px 20px 0 #D7D7D7;
+  cursor: pointer;
+}
+.transfer-wrapper .balance-dynamic-card p {
+  padding: 25px 50px;
+}
+
+.history-wrapper .history-card {
+  background-color: #F3F4F6;
+  cursor: pointer;
+  border: none;
+}
+.history-wrapper .history-card .history-table .history-table__head {
+  padding: 20px 50px;
+}
+.history-wrapper .history-card .history-table .history-table__head tr {
+  background-color: #116ACC;
+  font-family: "ubuntu";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: white;
+}
+.history-wrapper .history-card .history-table .history-table__head tr th {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.history-wrapper .history-card .history-table .history-table__head tr th:first-child {
+  padding-left: 50px;
+  border-radius: 15px 0 0 15px;
+}
+.history-wrapper .history-card .history-table .history-table__head tr th:last-child {
+  padding-right: 50px;
+  border-radius: 0 15px 15px 0;
+}
+.history-wrapper .history-card .history-table__body tr td {
+  padding-top: 23px;
+  padding-bottom: 23px;
+  font-family: "ubuntu";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.history-wrapper .history-card .history-table__body tr td:first-child {
+  padding-left: 50px;
+}
+
+.ratio-card .card-body canvas {
+  width: 100%;
+  min-height: 250px;
+}
+
+.fullAccountInfo-container .ratio-card,
+.fullAccountInfo-container .balance-dynamic-card {
+  margin-bottom: 50px;
+  border: none;
+  box-shadow: 0 5px 20px 0 #D7D7D7;
+  cursor: auto;
+}
+.fullAccountInfo-container .history-card {
+  margin-bottom: 50px;
+  background-color: #F3F4F6;
+  cursor: auto;
+  border: none;
+}
+.fullAccountInfo-container .history-card .history-table .history-table__head {
+  padding: 20px 50px;
+}
+.fullAccountInfo-container .history-card .history-table .history-table__head tr {
+  background-color: #116ACC;
+  font-family: "ubuntu";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: white;
+}
+.fullAccountInfo-container .history-card .history-table .history-table__head tr th {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.fullAccountInfo-container .history-card .history-table .history-table__head tr th:first-child {
+  padding-left: 50px;
+  border-radius: 15px 0 0 15px;
+}
+.fullAccountInfo-container .history-card .history-table .history-table__head tr th:last-child {
+  padding-right: 50px;
+  border-radius: 0 15px 15px 0;
+}
+.fullAccountInfo-container .history-card .history-table__body tr td {
+  padding-top: 23px;
+  padding-bottom: 23px;
+  font-family: "ubuntu";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.fullAccountInfo-container .history-card .history-table__body tr td:first-child {
+  padding-left: 50px;
+}
+.fullAccountInfo-container .history-card .history-table__foot .page-button.disabled {
+  background-color: #6B7280;
+  cursor: default;
+}
+
+.currency-container {
+  padding-bottom: 50px;
+}
+.currency-container h1 {
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 34px;
+  margin-bottom: 55px;
+}
+
+.yourcurrency-card,
+.exchange-card,
+.currency-rt-card {
+  border-radius: 25px;
+}
+.yourcurrency-card .card-body,
+.exchange-card .card-body,
+.currency-rt-card .card-body {
+  padding: 25px;
+}
+.yourcurrency-card .card-body .card-title,
+.exchange-card .card-body .card-title,
+.currency-rt-card .card-body .card-title {
+  margin-bottom: 25px;
+  font-family: "worksans";
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.currency-rt-card {
+  border-color: #E5E5E5;
+  background-color: #E5E5E5;
+}
+
+.yourcurrency-card {
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 5px 5px #D7D7D7;
+}
+.yourcurrency-card .yourcurrency-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: hidden;
+}
+.yourcurrency-card .yourcurrency-list .currency-item::before {
+  float: left;
+  width: 0;
+  white-space: nowrap;
+  color: green;
+  font-family: "workSans";
+  font-weight: normal;
+  font-size: 20px;
+  content: ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . ";
+}
+.yourcurrency-card .yourcurrency-list .currency-item span:first-child {
+  padding-right: 0.33em;
+  background: white;
+  font-family: "workSans";
+  font-weight: 600;
+  font-size: 20px;
+}
+.yourcurrency-card .yourcurrency-list .currency-item span:last-child {
+  float: right;
+  padding-left: 0.33em;
+  background: white;
+  font-family: "workSans";
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.currency-rt-card {
+  overflow-y: hidden;
+  max-height: 53vh;
+}
+
+.currency-exchange-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: hidden;
+  font-family: "workSans";
+  font-weight: normal;
+  font-size: 20px;
+}
+.currency-exchange-list .currency-item--green {
+  color: green;
+}
+.currency-exchange-list .currency-item--red {
+  color: red;
+}
+.currency-exchange-list .currency-item::before {
+  float: left;
+  width: 0;
+  white-space: nowrap;
+  content: ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . ";
+}
+.currency-exchange-list .currency-item .currency-item__name {
+  padding-right: 0.33em;
+  color: black;
+  background: #E5E5E5;
+  font-family: "workSans";
+  font-weight: 600;
+  font-size: 20px;
+}
+.currency-exchange-list .currency-item .rate-wrapper {
+  float: right;
+  padding-left: 0.33em;
+  background: #E5E5E5;
+}
+.currency-exchange-list .currency-item .rate-wrapper span:first-child {
+  color: black;
+  font-family: "workSans";
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.exchange-card {
+  box-shadow: 0px 0px 5px 5px #D7D7D7;
+}
+.exchange-card .exchange-data {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.exchange-card .exchange-data .exchange-form {
+  grid-row: 1/span 2;
+  grid-column: 1/span 3;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset {
+  display: flex;
+  width: 100%;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to {
+  width: 50%;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from label,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to label {
+  min-width: 15%;
+  margin-right: 15px;
+  font-family: "ubuntu";
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices {
+  width: 100%;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices .choices__inner,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices .choices__inner {
+  background: transparent;
+  border: 1px solid #9CA3AF;
+  border-radius: 10px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices .choices__inner .choices__input,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices .choices__inner .choices__input {
+  background: transparent;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices .choices__inner,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices .choices__inner {
+  text-align: left;
+  font-family: "ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices .choices__list--dropdown,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices .choices__list--dropdown {
+  font-family: "ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from .choices .choices__list--dropdown .is-highlighted,
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to .choices .choices__list--dropdown .is-highlighted {
+  background-color: #A0C3FF;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__from {
+  margin-right: 5px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset .exchange-form__to {
+  text-align: center;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset-summary {
+  display: flex;
+  align-items: center;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset-summary label {
+  min-width: 15%;
+  margin-right: 5px;
+  font-family: "ubuntu";
+  font-weight: bold;
+  font-size: 16px;
+}
+.exchange-card .exchange-data .exchange-form .exchange-form__fieldset-summary input {
+  padding: 10px 16px;
+  border: 1px solid #9CA3AF;
+  border-radius: 7px;
+  width: 100%;
+  font-family: "ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.exchange-card .exchange-data .exchange-form__button {
+  grid-row: 1/span 2;
+  grid-column: 4/span 1;
+  height: 100%;
+}
+
+.atm-container h1 {
+  font-family: "workSans";
+  font-weight: bold;
+  font-size: 34px;
+  margin-bottom: 55px;
+}
+.atm-container .ya-map {
+  height: 80vh;
+}
+
+.signIn-container {
+  position: absolute;
+  width: 500px;
+  height: 366px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #EBEBEB;
+  padding: 20px;
+  border-radius: 30px;
+}
+.signIn-container h1 {
+  margin: 0;
+  margin-bottom: 35px;
+  padding-top: 50px;
+  padding-left: calc(20% + 15px);
+  font-family: "WorkSans";
+  font-weight: bold;
+  font-size: 34px;
+}
+.signIn-container form {
+  padding-left: 40px;
+  padding-right: 85px;
+}
+.signIn-container form fieldset {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px;
+}
+.signIn-container form fieldset div {
+  display: grid;
+  grid-template-columns: 20% auto;
+  grid-template-rows: 1fr;
+}
+.signIn-container form fieldset div label {
+  margin-right: 20px;
+  grid-column: 1/span 1;
+  justify-self: flex-end;
+  align-self: center;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.signIn-container form fieldset div input {
+  padding: 10px 16px;
+  grid-column: 2/span 1;
+  border: 1px solid #9CA3AF;
+  border-radius: 5px;
+  width: 100%;
+  justify-self: flex-start;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  font-size: 16px;
+}
+.signIn-container form fieldset div:last-child {
+  margin-bottom: 30px;
+}
+.signIn-container form .buttons {
+  padding-left: 20%;
+}
+
+@font-face {
+  font-family: "WorkSans";
+  src: url("../fonts/WorkSans-Bold.woff2") format("woff2"), url("../fonts/WorkSans-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WorkSans";
+  src: url("../fonts/WorkSans-SemiBold.woff2") format("woff2"), url("../fonts/WorkSans-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WorkSans";
+  src: url("../fonts/WorkSans-Light.woff2") format("woff2"), url("../fonts/WorkSans-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url("../fonts/Ubuntu-Regular.woff2") format("woff2"), url("../fonts/Ubuntu-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url("../fonts/Ubuntu-Medium.woff2") format("woff2"), url("../fonts/Ubuntu-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto-Medium.woff2") format("woff2"), url("../fonts/Roboto-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+.button {
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: "Ubuntu";
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.button-primary {
+  background-color: #116ACC;
+  color: white;
+}
+
+.header-btn {
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  background-color: white;
+  color: #116ACC;
+}
+
+.page-button {
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  background-color: #116ACC;
+  color: white;
+  border-radius: 0;
+  border: 1px solid #B3CEE2;
+}
+
+.history-table .history-table__head tr {
+  border: none;
+}
+.history-table .history-table__body tr {
+  border-color: #2F80ED;
+}
+.history-table .history-table__body .transaction-amount--green {
+  color: green;
+}
+.history-table .history-table__body .transaction-amount--red {
+  color: red;
+}/*# sourceMappingURL=style.css.map */

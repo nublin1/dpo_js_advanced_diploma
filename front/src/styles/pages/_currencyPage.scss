@@ -1,0 +1,241 @@
+@import "./../_variables.scss";
+@import "./../_mixin.scss";
+
+.currency-container {
+    padding-bottom: 50px;
+    
+    h1 {
+        @include h1;
+        margin-bottom: 55px;
+    }
+
+}
+
+.yourcurrency-card,
+.exchange-card,
+.currency-rt-card {
+    border-radius: 25px;
+
+    .card-body {
+        padding: 25px;
+
+        .card-title {
+            margin-bottom: 25px;
+
+            font-family: 'worksans';
+            font-weight: bold;
+            font-size: 20px;
+        }
+    }
+}
+
+.currency-rt-card {
+    border-color: $color-gray1;
+    background-color: $color-gray1;
+}
+
+.yourcurrency-card {
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px 5px $color-shadow;
+
+    .yourcurrency-list {
+        @include list-reset;
+        overflow-x: hidden;
+
+        .currency-item::before {
+            float: left;
+            width: 0;
+            white-space: nowrap;
+            color: green;
+            font-family: 'workSans';
+            font-weight: normal;
+            font-size: 20px;
+
+            content:
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+                ". . . . . . . . . . . . . . . . . . . . "
+        }
+
+        .currency-item span:first-child {
+            padding-right: 0.33em;
+            background: white;
+
+            font-family: 'workSans';
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .currency-item span:last-child {
+            float: right;
+            padding-left: 0.33em;
+            background: white;
+
+            font-family: 'workSans';
+            font-weight: normal;
+            font-size: 20px;
+        }
+    }
+}
+
+.currency-rt-card{
+    overflow-y: hidden;
+    height: 100%;
+}
+
+.currency-exchange-list {
+    @include list-reset;
+    overflow-x: hidden;    
+
+    font-family: 'workSans';
+    font-weight: normal;
+    font-size: 20px;
+
+    .currency-item--green {
+        color: green;
+    }
+
+    .currency-item--red {
+        color: red;
+    }
+
+    .currency-item::before {
+        float: left;
+        width: 0;
+        white-space: nowrap;
+        content:
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+            ". . . . . . . . . . . . . . . . . . . . "
+    }
+
+    .currency-item {
+        .currency-item__name {
+            padding-right: 0.33em;
+            color: black;
+            background: $color-gray1;
+
+            font-family: 'workSans';
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .rate-wrapper {
+            float: right;
+            padding-left: 0.33em;
+            background: $color-gray1;
+
+            span:first-child {
+                color: black;
+
+                font-family: 'workSans';
+                font-weight: normal;
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.exchange-card {
+    box-shadow: 0px 0px 5px 5px $color-shadow;
+
+    .exchange-data {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        column-gap: 10px;
+
+        .exchange-form {
+            grid-row: 1 / span 2;
+            grid-column: 1 / span 3;
+
+            .exchange-form__fieldset {
+                display: flex;
+                width: 100%;
+
+                .exchange-form__from,
+                .exchange-form__to {
+                    width: 50%;
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    label {
+                        min-width: 15%;
+                        margin-right: 15px;
+
+                        font-family: 'ubuntu';
+                        font-weight: bold;
+                        font-size: 16px;
+                        line-height: 20px;
+                    }
+
+                    .choices {
+                        width: 100%;
+                        @include select;
+
+                        .choices__inner {
+                            text-align: left;
+
+                            font-family: 'ubuntu';
+                            font-weight: normal;
+                            font-size: 16px;
+                        }
+
+                        .choices__list--dropdown {
+                            font-family: 'ubuntu';
+                            font-weight: normal;
+                            font-size: 16px;
+
+                            .is-highlighted {
+                                background-color: $color-state-info2;
+                            }
+                        }
+                    }
+                }
+
+                .exchange-form__from {                   
+                    margin-right: 5px;
+                }
+
+                .exchange-form__to {
+                   text-align: center;
+                }
+            }
+
+            .exchange-form__fieldset-summary {
+                display: flex;
+                align-items: center;
+
+                label {
+                    min-width: 15%;
+                    margin-right: 5px;
+
+                    font-family: 'ubuntu';
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+
+                input {
+                    padding: 10px 16px;
+                    border: 1px solid $color-gray2;
+                    border-radius: 7px;
+                    width: 100%;
+
+                    font-family: 'ubuntu';
+                    font-weight: normal;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .exchange-form__button {
+            grid-row: 1 / span 2;
+            grid-column: 4 / span 1;
+            height: 100%;
+        }
+    }
+}
