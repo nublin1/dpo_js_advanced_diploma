@@ -1,6 +1,5 @@
 import { el } from "redom";
 import { login, getUserAccounts } from "../api";
-import { renderAccountsPage } from "./accountsPage.js";
 import JustValidate from "just-validate";
 
 export function renderSignInPage() {
