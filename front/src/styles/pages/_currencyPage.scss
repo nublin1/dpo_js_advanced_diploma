@@ -193,6 +193,11 @@
                             .is-highlighted {
                                 background-color: $color-state-info2;
                             }
+
+                            .choices__item {
+                                text-align: left;
+                                padding-right: 5px;
+                            }
                         }
                     }
                 }
@@ -237,5 +242,10 @@
             grid-column: 4 / span 1;
             height: 100%;
         }
+    }
+
+    .exchange-form__error-message {
+        margin: 0;
+        color: red;
     }
 }
