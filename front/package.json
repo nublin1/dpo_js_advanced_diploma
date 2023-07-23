@@ -17,10 +17,8 @@
     "@babel/preset-env": "^7.22.5",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.8.1",
-    "cypress": "^12.17.1",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.3",
-    "ignore-webpack-plugin": "^0.3.0",
     "mini-css-extract-plugin": "^2.7.6",
     "sass": "^1.63.4",
     "sass-loader": "^13.3.2",
@@ -29,7 +27,6 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "just-validate": "^4.2.0",
     "lodash": "^4.17.21",
     "redom": "^3.29.1",
     "ymaps": "^0.2.1"
