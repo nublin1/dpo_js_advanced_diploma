@@ -6,7 +6,7 @@ import {
   getAllCurrencies,
   currencyBuy,
 } from "./../api";
-import Choices from "choices.js";
+
 
 export async function renderCurrencyPage() {
   const container = el("div", { class: "container currency-container" });

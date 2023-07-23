@@ -2,7 +2,6 @@ import { el } from "redom";
 import { formatMonthDate } from "../utils.js";
 import { createNewAccount, getUserAccounts } from "../api.js";
 
-import Choices from "choices.js";
 
 
 let accs = null;
