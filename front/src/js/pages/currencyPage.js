@@ -87,7 +87,7 @@ export async function renderCurrencyPage() {
   exchangeButton.setAttribute("type", "submit");
   exchangeButton.setAttribute("form", "exchangeForm");
 
-  const errorMessage = el("p", { class: "exchange-form__error-message" });
+  const errorMessage = el("p", { class: "errors-space" });
 
   exchangeData.append(exchangeForm, exchangeButton);
   currencyExchangeCardBody.append(
@@ -131,7 +131,7 @@ export async function renderCurrencyPage() {
 
 function configureExcValidation() {
   const validator = new JustValidate(document.querySelector(".exchange-form"), {
-    errorsContainer: document.querySelector(".exchange-form__error-message"),
+    errorsContainer: document.querySelector(".errors-space"),
   });
   validator.addField(document.querySelector(".exchange-form__summary-input"), [
     {
@@ -167,7 +167,7 @@ function configureExcValidation() {
         document.querySelector(".yourcurrency-list")
       );
     } else {
-      document.querySelector(".exchange-form__error-message").innerHTML =
+      document.querySelector(".errors-space").innerHTML =
         "Недостаточно средств";
     }
 
