@@ -29,6 +29,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "choices.js": "^10.2.0",
     "just-validate": "^4.2.0",
     "lodash": "^4.17.21",
     "redom": "^3.29.1",
