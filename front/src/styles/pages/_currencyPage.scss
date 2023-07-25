@@ -249,3 +249,25 @@
         color: red;
     }
 }
+
+.transaction-modal {
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 5px $color-shadow;
+    border: 2px solid $color-state-info2;
+
+    p {
+        margin-bottom: 25px;
+        min-width: 400px;
+        //min-height: 180px;
+    
+        font-family: 'WorkSans';
+        font-size: 24px;
+        text-align: center;
+    }
+
+    form {
+        font-size: 24px;
+        text-align: center; 
+    }
+   
+}

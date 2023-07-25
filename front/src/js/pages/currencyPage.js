@@ -118,15 +118,34 @@ export async function renderCurrencyPage() {
   currencyRTChangedCard.append(currencyRTChangedCardBody);
   rightSide.append(currencyRTChangedCard);
 
+  // modal
+  const dialog = el("dialog", {class: "transaction-modal", id:"transaction-modal__ok"});
+  const dialogText = el("p", { class: "dialog-text" }, "Транзакция выполнена");
+  const dialogForm = el("form", { });
+  const closeButton= el("button", { class: "button button-primary close-button" }, "Закрыть");
+
+  dialogForm.append(closeButton);
+  dialog.append(dialogText, dialogForm);
+
   //
-  container.append(h1, mainRow);
+  container.append(h1, mainRow, dialog);
 
   const main = document.getElementById("main");
   main.innerHTML = "";
   main.appendChild(container);
 
+  configureModal();
   renderCurrencyExchange_RT();
   configureCurrencyExcCard();
+}
+
+function configureModal() {
+  const dialog = document.getElementById("transaction-modal__ok");
+  const closeButton = dialog.querySelector(".close-button");
+  closeButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.close();
+  });
 }
 
 function configureExcValidation() {
@@ -163,11 +182,13 @@ function configureExcValidation() {
       document.querySelector(".exchange-form__summary-input").value
     );
     if (answer.payload !== null) {
+      document.querySelector(".exchange-form__error-message").textContent = "";
+      document.getElementById("transaction-modal__ok").showModal();
       await reloadYourCurrencyList(
         document.querySelector(".yourcurrency-list")
       );
     } else {
-      document.querySelector(".exchange-form__error-message").innerHTML =
+      document.querySelector(".exchange-form__error-message").textContent =
         "Недостаточно средств";
     }
 
