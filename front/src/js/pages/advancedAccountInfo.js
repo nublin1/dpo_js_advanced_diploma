@@ -376,7 +376,7 @@ function configureForm() {
     saveAccount(transfer.to);
   });
   validator.onFail(function () {
-    console.log("Form is invalid!");
+    //console.log("Form is invalid!");
   });
 }
 
@@ -484,9 +484,12 @@ function configureReturnBtn(btn) {
 
 async function Transfer(transfer) {
   let response = await transferFunds(transfer);
-  if (response) {
+  if (response.payload !== null) {
     loadData(document.querySelector(".account-base-info__number").value);
     document.querySelector(".errors-space").textContent = "";
+  }
+  else {
+    document.querySelector(".errors-space").textContent="На счете недостаточно средств";
   }
 }
 
