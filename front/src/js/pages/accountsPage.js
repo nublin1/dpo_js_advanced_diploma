@@ -1,12 +1,13 @@
 import { el } from "redom";
-import { formatMonthDate } from "../utils.js";
+import { formatMonthDate, saveCurrentPage } from "../utils.js";
 import { createNewAccount, getUserAccounts } from "../api.js";
-
-
 
 let accs = null;
 
 export async function renderAccountsPage() {
+  saveCurrentPage();
+
+
   const container = el("div", { class: "container accounts-container" });
 
   //#region Upper part
@@ -132,7 +133,7 @@ function configureOpenButton(button, accountNumber) {
   button.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.hash = "#" + "account/" + accountNumber;
-   
+    
   });
 }
 

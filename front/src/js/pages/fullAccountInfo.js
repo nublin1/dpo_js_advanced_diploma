@@ -1,11 +1,14 @@
 import { el } from "redom";
 import { getAccountInfo } from "../api";
-import { formatDate, getMonthName } from "../utils";
+import { formatDate, getMonthName, saveCurrentPage } from "../utils";
 
 let accountsInfo = null;
 let currentPage = 1; // Current page
 
 export function renderFullAccountInfoPage(accountNumber) {
+  saveCurrentPage();
+
+
   //
   const container = el("div", {
     class: "container fullAccountInfo-container",

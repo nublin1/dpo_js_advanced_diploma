@@ -88,3 +88,15 @@ export function loadAccounts() {
   const accountAutocompleteNumbers = storedArray ? JSON.parse(storedArray) : [];
   return accountAutocompleteNumbers; 
 }
+
+export function saveCurrentPage() {
+  localStorage.setItem("currentPage", window.location.hash);
+}
+
+export function getCurrentPage() {
+  return localStorage.getItem("currentPage");
+}
+
+export function clearCurrentPage() {
+  localStorage.removeItem("currentPage");
+}

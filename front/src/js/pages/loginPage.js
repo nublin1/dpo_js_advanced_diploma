@@ -26,6 +26,7 @@ export function renderSignInPage() {
   const passwordInput = el("input", {
     class: "input-password",
     value: "skillbox",
+    type: "password",
   });
   passwordWrapper.append(labelPassword, passwordInput);
 

@@ -5,6 +5,7 @@ import { renderAccountsPage } from "./js/pages/accountsPage";
 import { renderCurrencyPage } from "./js/pages/currencyPage";
 import renderAdvancedAccountInfoPage from "./js/pages/advancedAccountInfo.js";
 import { renderFullAccountInfoPage } from "./js/pages/fullAccountInfo.js";
+import { saveCurrentPage, getCurrentPage, clearCurrentPage } from "./js/utils";
 import "./styles/style.scss";
 
 const btn_atms = document.getElementById("ATMs");
@@ -15,23 +16,27 @@ const btn_exit = document.getElementById("Exit");
 btn_atms.addEventListener("click",  (e) => {
   e.preventDefault();
   window.location.hash = "#" + "atms";
+  saveCurrentPage();
   setActiveBtn(e.target);
 });
 
 btn_accounts.addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.hash = "#" + "accounts";
+  saveCurrentPage();
   setActiveBtn(e.target);
 });
 
 btn_currency.addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.hash = "#" + "currency";
+  saveCurrentPage();
   setActiveBtn(e.target);
 });
 
 btn_exit.addEventListener("click", (e) => {
   logout();
+  clearCurrentPage();
   window.location.hash = "#" + "login";
   btn_atms.classList.remove("header-btn-active");
   btn_accounts.classList.remove("header-btn-active");
@@ -40,7 +45,13 @@ btn_exit.addEventListener("click", (e) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // getAllCurrencies();
-  window.location.hash = "#" + "login";
+  if (getCurrentPage() === "" || getCurrentPage() === null) {
+    window.location.hash = "#" + "login";
+  }
+  else {
+    window.location.hash = getCurrentPage();
+  }
+ 
   renderPage();
 });
 

@@ -1,6 +1,6 @@
 import { el } from "redom";
 import { getAccountInfo, transferFunds } from "../api";
-import { formatDate, getMonthName, saveAccount, loadAccounts } from "../utils";
+import { formatDate, getMonthName, saveAccount, loadAccounts, saveCurrentPage } from "../utils";
 
 import JustValidate from "just-validate";
 
@@ -8,6 +8,8 @@ let validator = null;
 let accountNumber = null;
 
 export default function renderAdvancedAccountInfoPage(inputAccNumber) {
+  saveCurrentPage();
+
   accountNumber = inputAccNumber;
   //
   const container = el("div", {
@@ -484,6 +486,7 @@ async function Transfer(transfer) {
   let response = await transferFunds(transfer);
   if (response.payload !== null) {
     loadData(document.querySelector(".account-base-info__number").value);
+    document.querySelector(".errors-space").textContent = "";
   }
   else {
     document.querySelector(".errors-space").textContent="На счете недостаточно средств";
@@ -494,11 +497,13 @@ function showFullAccountInfoPage(accountNumber) {
   document
     .querySelector(".balance-dynamic-card")
     .addEventListener("click", () => {
+     
       window.location.hash = "#" + "fullAccount/" + accountNumber;
     });
 
   document.querySelector(".history-card").addEventListener("click", () => {
     window.location.hash = "#" + "fullAccount/" + accountNumber;
+   
   });
 }
 
